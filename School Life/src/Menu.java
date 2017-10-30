@@ -1,5 +1,5 @@
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +28,11 @@ public class Menu extends JFrame implements ActionListener{
 		this.setVisible(true);
 	}
 	
+	public void ActionPerformed (ActionEvent e) {
+		
+	}
+	
+	//ISTO ADICIONA OS ALEMENTOS NA TELA
 	public void adicionador () {
 		this.add(lblLogo);
 		
@@ -39,6 +44,8 @@ public class Menu extends JFrame implements ActionListener{
 		
 		System.out.println("Objetos adicionados á tela.");
 	}
+	
+	//ISTO POSICIONA OS ELEMENTOS NA TELA
 	public void posicionador() {
 		lblLogo.setBounds(10, 10, 100, 10);
 		
