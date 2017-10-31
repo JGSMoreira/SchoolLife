@@ -2,6 +2,7 @@ package Matéria;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -13,6 +14,12 @@ import javax.swing.JTextField;
 
 public class CadastrarMateria extends JFrame implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5541980103611448459L;
+
+	//VARIÁVEIS
 	private JLabel lblNome = new JLabel("Nome da matéria"),
 				   lblProf = new JLabel("Professor"),
 				   lblCod = new JLabel("Código");
@@ -28,6 +35,7 @@ public class CadastrarMateria extends JFrame implements ActionListener{
 	
 	private JComboBox cbProf = new JComboBox();
 	
+	//ORGANIZADORES DA INTERFACE
 	public void adicionador() {
 		this.add(paInf, BorderLayout.SOUTH);
 		this.add(paCentral, BorderLayout.CENTER);
@@ -40,7 +48,6 @@ public class CadastrarMateria extends JFrame implements ActionListener{
 		paCentral.add(txtNome);
 		paCentral.add(lblProf);
 		paCentral.add(cbProf);
-
 		
 	}
 	
@@ -48,9 +55,9 @@ public class CadastrarMateria extends JFrame implements ActionListener{
 		lblCod.setBounds(15, 15, 125, 30);
 		txtCod.setBounds(125, 15, 50, 30);
 		lblNome.setBounds(15, 50, 125, 30);
-		txtNome.setBounds(125, 50, 200, 30);
+		txtNome.setBounds(125, 50, 240, 30);
 		lblProf.setBounds(15, 85, 80, 30);
-		cbProf.setBounds(125, 85, 200, 30);
+		cbProf.setBounds(125, 85, 240, 30);
 		
 	}
 	
@@ -63,9 +70,30 @@ public class CadastrarMateria extends JFrame implements ActionListener{
 		
 	}
 	
+	public void addCoisasCB() {
+		cbProf.addItem("Nenhum");
+		cbProf.addItem("Ednaldo Pereira");
+	}
+	
+	public void enviaDados() {
+		
+	}
+	
+	//EXECUTA AÇÕES
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnCancelar) {
+			dispose();
+		}
+		if (e.getSource() == btnSalvar) {
+			enviaDados();
+		}
+		
+	}
+	
+	//CONSTRUTOR
 	public CadastrarMateria() {
 		
-		this.setTitle("School Life - Cadastrar Professor");
+		this.setTitle("School Life - Cadastrar Matéria");
 		this.setBounds(0, 0, 400, 200);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
@@ -74,6 +102,10 @@ public class CadastrarMateria extends JFrame implements ActionListener{
 		adicionador();
 		posicionador();
 		estilizador();
+		addCoisasCB();
+		
+		btnCancelar.addActionListener(this);
+		btnSalvar.addActionListener(this);
 		
 		repaint();
 		this.setVisible(true);
