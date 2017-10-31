@@ -24,11 +24,13 @@ public class Menu extends JFrame implements ActionListener{
 	private JMenuItem miAddProfessor = new JMenuItem("Professor");
 	private JMenuItem miAddMateria = new JMenuItem("Matéria");
 	private JMenuItem miAddAtividade = new JMenuItem("Atividade");
+	private JMenuItem miAddTipoAtividade = new JMenuItem("Tipo de Atividade");
 	
 	private JMenu mnVisualizar = new JMenu("Visualizar");
 	private JMenuItem miVerProf = new JMenuItem("Professores");
 	private JMenuItem miVerMat = new JMenuItem("Matérias");
 	private JMenuItem miVerAtv = new JMenuItem("Atividades");
+	private JMenuItem miVerTipoAtividade = new JMenuItem("Tipo de Atividade");
 	
 	private JPanel paEsquerdo = new JPanel();
 	private JPanel paCentro = new JPanel();
@@ -47,6 +49,7 @@ public class Menu extends JFrame implements ActionListener{
 		this.setBounds(10, 10, 800, 600);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		
 		adicionador();
 		posicionador();
@@ -67,11 +70,13 @@ public class Menu extends JFrame implements ActionListener{
 		
 		mnAdicionar.add(miAddAtividade);
 		mnAdicionar.addSeparator();
+		mnAdicionar.add(miAddTipoAtividade);
 		mnAdicionar.add(miAddMateria);
 		mnAdicionar.add(miAddProfessor);
 		
 		mnVisualizar.add(miVerAtv);
 		mnVisualizar.addSeparator();
+		mnVisualizar.add(miVerTipoAtividade);
 		mnVisualizar.add(miVerMat);
 		mnVisualizar.add(miVerProf);
 		
