@@ -1,43 +1,126 @@
 package Professor;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CadastroProfessor extends JFrame implements ActionListener{
 	
 	private JLabel lblNome = new JLabel("Nome:"),
-				   lblCodigo = new JLabel("Código");
+				   lblCodigo = new JLabel("Código:");
 	private JTextField txtNome = new JTextField(),
-					   txtCódigo = new JTextField();
+					   txtCodigo = new JTextField();
 	private JButton btnSalvar = new JButton("Salvar"),
 					btnFechar = new JButton("Fechar");
 	
+	private int codigo;
+
 	
+	private Font fonte = new Font ("Open Sans", Font.TYPE1_FONT, 16);
+	
+	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
+			   usuario = "root",
+			   senha = "root";
+	
+	private Connection conexao;
+	private Statement stm;
 	
 	public CadastroProfessor () {
-		setBounds(100,100,500,500);
+		setBounds(100,100,400,300);
 		setTitle("Cadastro de Professor");
 		setVisible(true);
 		setResizable(false);
+		setLayout(null);
+		
 		
 		btnFechar.addActionListener(this);
 		btnSalvar.addActionListener(this);
 		
 
-		lblNome.setBounds(10, 10, 10, 10);
+		lblNome.setBounds(50, 100, 100, 40);
 		add(lblNome);
-		lblCodigo.setBounds(30, 10, 20, 10);
+		lblNome.setFont(fonte);
+		
+		txtNome.setBounds(120, 105, 200, 30);
+		add(txtNome);
+		
+		lblCodigo.setBounds(50, 20, 100, 40);
 		add(lblCodigo);
+		lblCodigo.setFont(fonte);
+		
+		txtCodigo.setBounds(120, 25, 50, 30);
+		add(txtCodigo);
+		txtCodigo.setEditable(false);
+		txtCodigo.setFont(fonte);
+		
+		btnSalvar.setBounds(50, 200, 100, 40);
+		add(btnSalvar);
+		
+		btnFechar.setBounds(250, 200, 100, 40);
+		add(btnFechar);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == btnFechar) {
+			dispose();
+		}
+		else if (e.getSource() == btnSalvar) {
+			if (! txtNome.getText().equals("")) {
+			salvarProfessor();
+			}
+		}
+	}
+	
+	public void salvarProfessor() {
+		try {
+		Class.forName("com.mysql.jdbc.Driver");
+		conexao = DriverManager.getConnection(url, usuario, senha);
+		stm=conexao.createStatement();
 		
+		Class.forName("com.mysql.jdbc.Driver");
+		conexao = DriverManager.getConnection(
+				url, usuario, senha);
+		
+		stm=conexao.createStatement();
+		
+		stm.executeUpdate("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
+		
+		limpar();
+		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
+		stm.close();		
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void limpar() {
+		txtNome.setText("");
+		txtNome.requestFocus();
+	}
+	
+	private void codigo() {
+		try {
+			this.codigo=stm.executeUpdate("select max(idprofessor) from professor;");
+			this.codigo=+1;
+			txtCodigo.getText();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
