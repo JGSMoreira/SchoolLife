@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -27,6 +28,7 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 					btnFechar = new JButton("Fechar");
 	
 	private int codigo;
+	private ResultSet rs;
 
 	
 	private Font fonte = new Font ("Open Sans", Font.TYPE1_FONT, 16);
@@ -54,8 +56,9 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		add(lblNome);
 		lblNome.setFont(fonte);
 		
-		txtNome.setBounds(120, 105, 200, 30);
+		txtNome.setBounds(120, 105, 230, 30);
 		add(txtNome);
+		txtNome.setFont(fonte);
 		
 		lblCodigo.setBounds(50, 20, 100, 40);
 		add(lblCodigo);
@@ -71,7 +74,24 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		
 		btnFechar.setBounds(250, 200, 100, 40);
 		add(btnFechar);
+		codigo();
+
 	}
+	
+	public void codigo() {
+		try {
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+			this.rs=stm.executeQuery("select max(idprofessor) from professor;");
+			this.codigo=((Number) rs.getObject(1)).intValue();
+			this.codigo=+1;
+			
+			System.out.println(stm.executeQuery("select max(idprofessor) from professor;"));
+			txtCodigo.setText(Integer.toString(codigo));
+			stm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnFechar) {
@@ -90,18 +110,8 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		conexao = DriverManager.getConnection(url, usuario, senha);
 		stm=conexao.createStatement();
 		
-		Class.forName("com.mysql.jdbc.Driver");
-		conexao = DriverManager.getConnection(
-				url, usuario, senha);
-		
-		stm=conexao.createStatement();
-		
 		stm.executeUpdate("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
-		
-		this.codigo=stm.executeUpdate("select max(idprofessor) from professor;");
-		this.codigo=+1;
-		txtCodigo.setText(Integer.toString(codigo));
-		
+	
 		limpar();
 		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
 		stm.close();		
