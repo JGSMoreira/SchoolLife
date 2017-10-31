@@ -96,7 +96,11 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		
 		stm=conexao.createStatement();
 		
-		stm.executeUpdate("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
+		stm.executeQuery("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
+		
+		this.codigo=stm.executeUpdate("select max(idprofessor) from professor;");
+		this.codigo=+1;
+		txtCodigo.setText(Integer.toString(codigo));
 		
 		limpar();
 		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
@@ -112,16 +116,7 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		txtNome.setText("");
 		txtNome.requestFocus();
 	}
-	
-	private void codigo() {
-		try {
-			this.codigo=stm.executeUpdate("select max(idprofessor) from professor;");
-			this.codigo=+1;
-			txtCodigo.getText();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+
 	
 	public static void main(String[] args) {
 		CadastroProfessor c = new CadastroProfessor();
