@@ -96,7 +96,7 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		
 		stm=conexao.createStatement();
 		
-		stm.executeQuery("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
+		stm.executeUpdate("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
 		
 		this.codigo=stm.executeUpdate("select max(idprofessor) from professor;");
 		this.codigo=+1;
