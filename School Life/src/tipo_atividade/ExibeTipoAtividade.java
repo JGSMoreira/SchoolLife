@@ -42,6 +42,7 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener{
 		btnFechar.addActionListener(this);
 		add(painelSul, BorderLayout.SOUTH);
 		setResizable(false);
+		revalidate();
 		
 		btnFechar.setFont(fonte);
 		
