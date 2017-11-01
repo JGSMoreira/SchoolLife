@@ -1,6 +1,7 @@
-package professor;
+package atividade;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -16,10 +17,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
-public class ExibeProfessor extends JFrame implements ActionListener{
+public class ExibeTipoAtividade extends JFrame implements ActionListener{
 	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
 			   usuario = "root",
 			   senha = "root";
+	private Font fonte = new Font ("Open Sans", Font.TYPE1_FONT, 16);
 	
 	private Connection conexao;
 	private Statement stm;
@@ -30,35 +32,37 @@ public class ExibeProfessor extends JFrame implements ActionListener{
 	private JPanel painelSul = new JPanel();
 	
 	
-	public ExibeProfessor() {
+	public ExibeTipoAtividade() {
 		
-		setBounds(300, 300, 600, 300);
+		setBounds(300, 300, 450, 300);
 		setVisible(true);
 
-		setTitle("School Life - Lista de Professores");
+		setTitle("School Life - Lista de Tipos de Atividades");
 		painelSul.add(btnFechar);
 		btnFechar.addActionListener(this);
 		add(painelSul, BorderLayout.SOUTH);
 		setResizable(false);
 		
-		
+		btnFechar.setFont(fonte);
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
-			rs = stm.executeQuery("select * from professor");
+			rs = stm.executeQuery("select * from tipo_atividade");
 			Vector cabecalhos = new Vector(),
 				   linhas = new Vector();
 			cabecalhos.addElement("Código");
-			cabecalhos.addElement("Nome");
+			cabecalhos.addElement("Tipo");
+			
 			
 			
 			while(rs.next()) {
 				Vector linha = new Vector();
-				linha.addElement(rs.getString("idprofessor"));
+				linha.addElement(rs.getString("idtipo_atividade"));
 				linha.addElement(rs.getString("nome"));
 				linhas.addElement(linha);
+
 			}
 			
 			stm.close(); 
@@ -82,6 +86,6 @@ public class ExibeProfessor extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		ExibeProfessor ep = new ExibeProfessor();
+		ExibeTipoAtividade ep = new ExibeTipoAtividade();
 	}
 }
