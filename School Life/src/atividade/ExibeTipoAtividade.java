@@ -71,8 +71,6 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener{
 			scroller = new JScrollPane(tabela);
 			this.add(scroller, BorderLayout.CENTER);
 			revalidate();
-			
-
 		}
 		
 		catch (Exception e) {
