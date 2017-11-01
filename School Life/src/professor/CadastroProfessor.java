@@ -42,7 +42,7 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 	
 	public CadastroProfessor () {
 		setBounds(100,100,400,300);
-		setTitle("Cadastro de Professor");
+		setTitle("School Life - Cadastro de Professor");
 		setVisible(true);
 		setResizable(false);
 		setLayout(null);
@@ -71,9 +71,12 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		
 		btnSalvar.setBounds(50, 200, 100, 40);
 		add(btnSalvar);
+		btnSalvar.setFont(fonte);
 		
 		btnFechar.setBounds(250, 200, 100, 40);
 		add(btnFechar);
+		btnFechar.setFont(fonte);
+		
 		codigo();
 
 	}
@@ -82,12 +85,19 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		try {
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
+
 			this.rs=stm.executeQuery("select max(idprofessor) from professor;");
+
+			if(rs.equals("null")) {
+				codigo=1;
+			}
+			else {
 			this.codigo=((Number) rs.getObject(1)).intValue();
-			this.codigo=+1;
+			this.codigo=+1;}
 			
-			System.out.println(stm.executeQuery("select max(idprofessor) from professor;"));
 			txtCodigo.setText(Integer.toString(codigo));
+			System.out.println(stm.executeQuery("select max(idprofessor) from professor;"));
+
 			stm.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
