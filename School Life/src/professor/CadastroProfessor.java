@@ -1,4 +1,4 @@
-package Professor;
+package professor;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
