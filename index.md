@@ -1,37 +1,32 @@
-## Welcome to GitHub Pages
+# School Life
+##### Este é um projeto de escola, pedimos que ninguém altere nosso programa :) 
+##### Alunos: Alysson Kauan de Sousa Cremer, João Guilherme dos Santos Moreira
 
-You can use the [editor on GitHub](https://github.com/MineSlim/schoollife/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+## FUNCIONALIDADES:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Cadastrar Professor
+Esta funcionalidade permitirá salvar o nome do professor sistema, dando a ele um código.
 
-### Markdown
+### Visualizar lista de Professores
+Esta funcionalidade exibe a lista de professores salvos no banco de dados, assim como seu código.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Cadastrar Matéria
+Esta funcionalidade permite ao usuário cadastrar uma nova matéria. Para isso o usuário deverá escolher um professor já cadastrado em combobox. O sistema irá cadastrar a matéria e dará um código para ela.
 
-```markdown
-Syntax highlighted code block
+### Visualizar Matérias
+Esta funcionalidade exibe a lista de matérias salvas no banco de dados, assim como seu código.
 
-# Header 1
-## Header 2
-### Header 3
+### Cadastrar Tipo de Atividade
+Esta funcionalidade permitirá salvar tipos de atividades que funcionam como um tipo de “tags” para classificar e organizar melhor as atividades. Para realizar este cadastro, é necessário apenas o nome do tipo de atividade, o código é gerado automaticamente.
 
-- Bulleted
-- List
+### Visualizar Tipos de Atividades
+Esta funcionalidade exibe uma lista com todos os tipos de atividades salvos no banco de dados, assim como seu código.
 
-1. Numbered
-2. List
+### Cadastrar Atividade
+Esta funcionalidade permitirá salvar as atividades do usuário. Para realizar este cadastro, é necessário que o usuário digite o nome da atividade, o valor da atividade, data de entrega, a etapa (ou bimestre) da atividade e selecione matéria e a prioridade no combobox. O professor será exibido automaticamente e a atividade receberá um código.
 
-**Bold** and _Italic_ and `Code` text
+### Visualizar Atividades
+Esta funcionalidade exibe uma lista com todas atividades salvas no banco de dados, assim como seu código, nome, data de entrega, etapa, valor, matéria, professor e sua prioridade.
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/MineSlim/schoollife/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Menu
+Esta funcionalidade apenas exibirá alguns botões de atalho para funcionalidades, o menu superior e atividades que necessitam de atenção, como: data de entrega próxima, alto valor, provas, prioridade alta, etc.
