@@ -168,7 +168,6 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		if (e.getSource() == Oipessoa) {
 			Oipessoa.setIcon(new ImageIcon("fotos/easterovo.png"));
 		}
-		
 	}
 
 	@Override
