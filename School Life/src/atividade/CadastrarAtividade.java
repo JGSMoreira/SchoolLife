@@ -154,9 +154,5 @@ public class CadastrarAtividade extends JFrame implements ActionListener{
 		repaint();
 		this.setVisible(true);
 	}
-	
-	public static void main (String []args) {
-		CadastrarAtividade cad = new CadastrarAtividade();
-	}
 
 }

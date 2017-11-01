@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,7 +17,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-public class Menu extends JFrame implements ActionListener{
+import atividade.CadastrarAtividade;
+
+public class Menu extends JFrame implements ActionListener, MouseListener{
 	
 	/**
 	 *  Eu realmente não sei o que é isso, mas acho o erro irritante.
@@ -45,6 +51,8 @@ public class Menu extends JFrame implements ActionListener{
 	private JLabel lblEspaco = new JLabel("       ");
 	
 	private Font ftLogo = new Font("Segoe UI", Font.PLAIN, 30);
+	JLabel Oipessoa = new JLabel(new ImageIcon("fotos/easterovo.png"));
+	
 	
 	private Menu() {
 		this.setTitle("School Life - Menu Principal");
@@ -56,12 +64,15 @@ public class Menu extends JFrame implements ActionListener{
 		adicionador();
 		posicionador();
 		estilizador();
+		adicionaListeners();
 		
 		this.setVisible(true);
 	}
 	
 	public void actionPerformed (ActionEvent e) {
-		
+		if (e.getSource() == miAddAtividade) {
+			atividade.CadastrarAtividade a = new atividade.CadastrarAtividade();
+		}
 	}
 	
 	//ISTO ADICIONA OS ALEMENTOS NA TELA
@@ -92,6 +103,10 @@ public class Menu extends JFrame implements ActionListener{
 		paEsquerdo.add(btnCadProf);
 		paEsquerdo.add(btnCadMat);
 		paEsquerdo.add(btnAddAtv);
+		
+		
+		paCentro.add(Oipessoa);
+		
 	
 		System.out.println("Objetos adicionados á tela.");
 	}
@@ -109,8 +124,63 @@ public class Menu extends JFrame implements ActionListener{
 		paCentro.setBackground(Color.WHITE);
 	}
 	
+	public void adicionaListeners() {
+		btnAddAtv.addActionListener(this);
+		btnCadMat.addActionListener(this);
+		btnCadProf.addActionListener(this);
+		
+		miAddAtividade.addActionListener(this);
+		miAddMateria.addActionListener(this);
+		miAddProfessor.addActionListener(this);
+		miAddTipoAtividade.addActionListener(this);
+		miVerAtv.addActionListener(this);
+		miVerMat.addActionListener(this);
+		miVerProf.addActionListener(this);
+		miVerTipoAtividade.addActionListener(this);
+		
+		Oipessoa.addMouseListener(this);
+	}
+	
 	public static void main (String [] args) {
 		Menu mn = new Menu();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == Oipessoa) {
+			materia.CadastrarMateria ab = new materia.CadastrarMateria();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == Oipessoa) {
+			Oipessoa.setIcon(new ImageIcon("fotos/easterovohover.png"));
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == Oipessoa) {
+			Oipessoa.setIcon(new ImageIcon("fotos/easterovo.png"));
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
