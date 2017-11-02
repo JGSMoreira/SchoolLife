@@ -43,15 +43,14 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	private JPanel paEsquerdo = new JPanel();
 	private JPanel paCentro = new JPanel();
 	
-	private JButton btnCadProf = new JButton("Cadastrar Professor");
-	private JButton btnCadMat = new JButton("Cadastrar Matéria");
-	private JButton btnAddAtv = new JButton("Adicionar Atividade"); 
-	
-	private JLabel lblLogo = new JLabel("School Life");
+	private JLabel lblLogo = new JLabel(new ImageIcon("img/menu/logo.png"));
 	private JLabel lblEspaco = new JLabel("       ");
 	
-	private Font ftLogo = new Font("Segoe UI", Font.PLAIN, 30);
-	JLabel Oipessoa = new JLabel(new ImageIcon("fotos/easterovo.png"));
+	private Font ftLogo = new Font("Product Sans", Font.PLAIN, 30);
+	
+	JLabel btnCadProf = new JLabel(new ImageIcon("img/menu/btn_CadProf.png"));
+	JLabel btnCadMat = new JLabel(new ImageIcon("img/menu/btn_CadMat.png"));
+	JLabel btnAddAtv = new JLabel(new ImageIcon("img/menu/btn_AddAtv.png"));
 	
 	
 	private Menu() {
@@ -75,7 +74,7 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 	
-	//ISTO ADICIONA OS ALEMENTOS NA TELA
+	//ISTO ADICIONA OS ELEMENTOS NA TELA
 	public void adicionador () {
 		
 		mnbMenu.add(mnAdicionar);
@@ -99,15 +98,10 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		this.add(paCentro, BorderLayout.CENTER);
 		
 		paEsquerdo.add(lblLogo);
-		paEsquerdo.add(lblEspaco);
 		paEsquerdo.add(btnCadProf);
 		paEsquerdo.add(btnCadMat);
 		paEsquerdo.add(btnAddAtv);
-		
-		
-		paCentro.add(Oipessoa);
-		
-	
+			
 		System.out.println("Objetos adicionados á tela.");
 	}
 	
@@ -125,9 +119,6 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	}
 	
 	public void adicionaListeners() {
-		btnAddAtv.addActionListener(this);
-		btnCadMat.addActionListener(this);
-		btnCadProf.addActionListener(this);
 		
 		miAddAtividade.addActionListener(this);
 		miAddMateria.addActionListener(this);
@@ -138,7 +129,10 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		miVerProf.addActionListener(this);
 		miVerTipoAtividade.addActionListener(this);
 		
-		Oipessoa.addMouseListener(this);
+		btnCadProf.addMouseListener(this);
+		btnCadMat.addMouseListener(this);
+		btnAddAtv.addMouseListener(this);
+		
 	}
 	
 	public static void main (String [] args) {
@@ -148,16 +142,28 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == Oipessoa) {
+		if (e.getSource() == btnCadProf) {
+			professor.CadastroProfessor cp = new professor.CadastroProfessor();
+		}
+		if (e.getSource() == btnCadMat) {
 			materia.CadastrarMateria ab = new materia.CadastrarMateria();
+		}
+		if (e.getSource() == btnAddAtv) {
+			atividade.CadastrarAtividade ca = new atividade.CadastrarAtividade();
 		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == Oipessoa) {
-			Oipessoa.setIcon(new ImageIcon("fotos/easterovohover.png"));
+		if (e.getSource() == btnCadProf) {
+			btnCadProf.setIcon(new ImageIcon("img/menu/btn_CadProf_hover.png"));
+		}
+		if (e.getSource() == btnCadMat) {
+			btnCadMat.setIcon(new ImageIcon("img/menu/btn_CadMat_hover.png"));
+		}
+		if (e.getSource() == btnAddAtv) {
+			btnAddAtv.setIcon(new ImageIcon("img/menu/btn_AddAtv_hover.png"));
 		}
 		
 	}
@@ -165,8 +171,14 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == Oipessoa) {
-			Oipessoa.setIcon(new ImageIcon("fotos/easterovo.png"));
+		if (e.getSource() == btnCadProf) {
+			btnCadProf.setIcon(new ImageIcon("img/menu/btn_CadProf.png"));
+		}
+		if (e.getSource() == btnCadMat) {
+			btnCadMat.setIcon(new ImageIcon("img/menu/btn_CadMat.png"));
+		}
+		if (e.getSource() == btnAddAtv) {
+			btnAddAtv.setIcon(new ImageIcon("img/menu/btn_AddAtv.png"));
 		}
 	}
 

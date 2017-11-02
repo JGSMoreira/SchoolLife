@@ -1,6 +1,7 @@
 package professor;
-
+import com.mysql.jdbc.Driver;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,20 +19,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import javafx.scene.layout.Border;
+
 public class CadastroProfessor extends JFrame implements ActionListener{
 	
-	private JLabel lblNome = new JLabel("Nome:"),
-				   lblCodigo = new JLabel("Código:");
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4248697972014390077L;
+	
+	private JLabel lblNome = new JLabel("Nome");
 	private JTextField txtNome = new JTextField(),
 					   txtCodigo = new JTextField();
 	private JButton btnSalvar = new JButton("Salvar"),
 					btnFechar = new JButton("Fechar");
 	
+	private JPanel paCentral = new JPanel(),
+				   paInferior = new JPanel();
+	
 	private int codigo;
 	private ResultSet rs;
 
 	
-	private Font fonte = new Font ("Open Sans", Font.TYPE1_FONT, 16);
+	private Font fonte = new Font ("Open Sans", Font.PLAIN, 12);
 	
 	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
 			   usuario = "root",
@@ -41,41 +51,44 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 	private Statement stm;
 	
 	public CadastroProfessor () {
-		setBounds(100,100,400,300);
+		setBounds(100,100,400,130);
 		setTitle("School Life - Cadastro de Professor");
 		setVisible(true);
 		setResizable(false);
-		setLayout(null);
+		setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
 		
+		add(paCentral, BorderLayout.CENTER);
+		add(paInferior, BorderLayout.SOUTH);
+		
+		paCentral.setLayout(null);
 		
 		btnFechar.addActionListener(this);
 		btnSalvar.addActionListener(this);
 		
 
-		lblNome.setBounds(50, 100, 100, 40);
-		add(lblNome);
+		lblNome.setBounds(15, 15, 100, 30);
+		paCentral.add(lblNome);
 		lblNome.setFont(fonte);
 		
-		txtNome.setBounds(120, 105, 230, 30);
-		add(txtNome);
+		txtNome.setBounds(180, 15, 185, 30);
+		paCentral.add(txtNome);
 		txtNome.setFont(fonte);
 		
-		lblCodigo.setBounds(50, 20, 100, 40);
-		add(lblCodigo);
-		lblCodigo.setFont(fonte);
-		
-		txtCodigo.setBounds(120, 25, 50, 30);
-		add(txtCodigo);
+		txtCodigo.setBounds(125, 15, 50, 30);
+		paCentral.add(txtCodigo);
 		txtCodigo.setEditable(false);
 		txtCodigo.setFont(fonte);
 		
-		btnSalvar.setBounds(50, 200, 100, 40);
-		add(btnSalvar);
+		paInferior.add(btnSalvar);
 		btnSalvar.setFont(fonte);
 		
-		btnFechar.setBounds(250, 200, 100, 40);
-		add(btnFechar);
+		paInferior.add(btnFechar);
 		btnFechar.setFont(fonte);
+		
+		paCentral.setBackground(Color.white);
+		paCentral.setLayout(null);
+		paInferior.setBackground(new Color(0, 206, 209));
 		
 		codigo();
 
@@ -86,22 +99,25 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 
-			this.rs=stm.executeQuery("select max(idprofessor) from professor;");
+			this.rs=stm.executeQuery("SELECT MAX(idprofessor) FROM professor;");
+			rs.next();
 
-			if(rs.equals("null")) {
-				codigo=1;
+			rs.getString("MAX(idProfessor)");
+			if(rs.wasNull()) {
+				codigo = 1;
 			}
 			else {
-			this.codigo=((Number) rs.getObject(1)).intValue();
-			this.codigo=+1;}
+				this.codigo=((Number) rs.getObject(1)).intValue();
+				this.codigo=codigo + 1;
+			}
 			
 			txtCodigo.setText(Integer.toString(codigo));
-			System.out.println(stm.executeQuery("select max(idprofessor) from professor;"));
 
 			stm.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}}
+		}
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnFechar) {
@@ -110,6 +126,7 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		else if (e.getSource() == btnSalvar) {
 			if (! txtNome.getText().equals("")) {
 			salvarProfessor();
+			dispose();
 			}
 		}
 	}
@@ -122,7 +139,6 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		
 		stm.executeUpdate("insert into professor (nome) values" + "('"+txtNome.getText()+"');");
 	
-		limpar();
 		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
 		stm.close();		
 		}
@@ -132,15 +148,7 @@ public class CadastroProfessor extends JFrame implements ActionListener{
 		}
 	}
 	
-	public void limpar() {
-		txtNome.setText("");
-		txtNome.requestFocus();
-	}
-
-	
-	public static void main(String[] args) {
+	public static void main (String []args) {
 		CadastroProfessor cp = new CadastroProfessor();
 	}
-
-	
 }
