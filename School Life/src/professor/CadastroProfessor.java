@@ -84,6 +84,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		txtCodigo.setBounds(125, 15, 50, 30);
 		paCentral.add(txtCodigo);
 		txtCodigo.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		txtCodigo.setHorizontalAlignment(JTextField.CENTER);
 		txtCodigo.setEditable(false);
 		txtCodigo.setFont(fonte);
 		
@@ -150,11 +151,6 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main (String []args) {
-		CadastroProfessor cp = new CadastroProfessor();
-		
 	}
 
 	@Override

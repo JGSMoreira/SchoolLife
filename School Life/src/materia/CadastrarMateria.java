@@ -194,6 +194,8 @@ public class CadastrarMateria extends JFrame implements ActionListener, MouseLis
 		txtCod.setFont(fonteOpenSans1);
 		txtNome.setFont(fonteOpenSans1);
 		
+		txtCod.setHorizontalAlignment(JTextField.CENTER);
+		
 		lblNome.setForeground(Color.WHITE);
 		lblProf.setForeground(Color.WHITE);
 		
@@ -231,10 +233,6 @@ public class CadastrarMateria extends JFrame implements ActionListener, MouseLis
 		
 		repaint();
 		this.setVisible(true);
-	}
-	
-	public static void main (String []args) {
-		CadastrarMateria cm = new CadastrarMateria();
 	}
 
 	@Override
