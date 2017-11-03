@@ -18,6 +18,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import atividade.CadastrarAtividade;
+import materia.CadastrarMateria;
 
 public class Menu extends JFrame implements ActionListener, MouseListener{
 	
@@ -48,9 +49,10 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	
 	private Font ftLogo = new Font("Product Sans", Font.PLAIN, 30);
 	
-	JLabel btnCadProf = new JLabel(new ImageIcon("img/menu/btn_CadProf.png"));
-	JLabel btnCadMat = new JLabel(new ImageIcon("img/menu/btn_CadMat.png"));
-	JLabel btnAddAtv = new JLabel(new ImageIcon("img/menu/btn_AddAtv.png"));
+	private JLabel btnCadProf = new JLabel(new ImageIcon("img/menu/btn_CadProf.png"));
+	private JLabel btnCadMat = new JLabel(new ImageIcon("img/menu/btn_CadMat.png"));
+	private JLabel btnAddAtv = new JLabel(new ImageIcon("img/menu/btn_AddAtv.png"));
+	private JLabel degrade = new JLabel(new ImageIcon("img/menu/degradê.png"));
 	
 	
 	private Menu() {
@@ -59,6 +61,7 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		adicionador();
 		posicionador();
@@ -71,6 +74,15 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	public void actionPerformed (ActionEvent e) {
 		if (e.getSource() == miAddAtividade) {
 			atividade.CadastrarAtividade a = new atividade.CadastrarAtividade();
+		}
+		if (e.getSource() == miAddProfessor) {
+			professor.CadastroProfessor a = new professor.CadastroProfessor();
+		}
+		if (e.getSource() == miAddMateria) {
+			materia.CadastrarMateria a = new CadastrarMateria();
+		}
+		if (e.getSource() == miAddTipoAtividade) {
+			tipo_atividade.CadastroTipoAtividade a = new tipo_atividade.CadastroTipoAtividade();
 		}
 	}
 	
@@ -101,25 +113,28 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		paEsquerdo.add(btnCadProf);
 		paEsquerdo.add(btnCadMat);
 		paEsquerdo.add(btnAddAtv);
+		paCentro.add(degrade);
 			
-		System.out.println("Objetos adicionados á tela.");
+		System.out.println("Objetos adicionados na tela.");
 	}
 	
 	//ISTO POSICIONA OS ELEMENTOS NA TELA
 	public void posicionador() {
-		
+		paCentro.setLayout(null);
+		degrade.setBounds(-20, -275, 820, 600);
 		System.out.println("Objetos posicionados na tela.");
 	}
 	
 	public void estilizador() {
 		lblLogo.setFont(ftLogo);
 		lblLogo.setForeground(Color.white);
-		paEsquerdo.setBackground(new Color(0, 206, 209));
-		paCentro.setBackground(Color.WHITE);
+		paEsquerdo.setBackground(new Color(47,79,79));
+		paCentro.setBackground(new Color(16, 28, 28));
 	}
 	
 	public void adicionaListeners() {
 		
+		//ACTION LISTENERS
 		miAddAtividade.addActionListener(this);
 		miAddMateria.addActionListener(this);
 		miAddProfessor.addActionListener(this);
@@ -129,6 +144,7 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		miVerProf.addActionListener(this);
 		miVerTipoAtividade.addActionListener(this);
 		
+		//MOUSE LISTENERS
 		btnCadProf.addMouseListener(this);
 		btnCadMat.addMouseListener(this);
 		btnAddAtv.addMouseListener(this);
@@ -139,7 +155,6 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		Menu mn = new Menu();
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnCadProf) {
@@ -153,7 +168,6 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnCadProf) {
@@ -168,7 +182,6 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		
 	}
 
-	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnCadProf) {
@@ -182,13 +195,11 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		}
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
