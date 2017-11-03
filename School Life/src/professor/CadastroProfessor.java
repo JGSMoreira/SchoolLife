@@ -79,6 +79,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		paCentral.add(txtNome);
 		txtNome.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		txtNome.requestFocus();
+		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		txtNome.setFont(fonte);
 		
 		txtCodigo.setBounds(125, 15, 50, 30);

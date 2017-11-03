@@ -4,9 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 import java.awt.Font;
 import java.awt.TextField;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,7 +27,7 @@ import javax.swing.UIManager;
 
 import materia.CadastrarMateria;
 
-public class CadastrarAtividade extends JFrame implements ActionListener{
+public class CadastrarAtividade extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -43,8 +53,8 @@ public class CadastrarAtividade extends JFrame implements ActionListener{
 	private JPanel paInf = new JPanel(),
 				   paCentral = new JPanel();
 	
-	private JButton btnSalvar = new JButton("Salvar"),
-					btnCancelar = new JButton("Cancelar");
+	private JLabel btnSalvar = new JLabel(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
+	private JLabel btnCancelar = new JLabel(new ImageIcon("img/geral/btn_Cancelarmdpi.png"));
 	
 	private JComboBox cbMateria = new JComboBox(),
 					  cbPrioridade = new JComboBox();
@@ -73,7 +83,6 @@ public class CadastrarAtividade extends JFrame implements ActionListener{
 		paCentral.add(lblExemploEt);
 		paCentral.add(lblContinuaPontos);
 		
-		
 	}
 	
 	public void posicionador() {
@@ -97,12 +106,13 @@ public class CadastrarAtividade extends JFrame implements ActionListener{
 	}
 	
 	public void estilizador() {
-		paCentral.setBackground(Color.white);
+		paCentral.setBackground(new Color(16, 28, 28));
 		paCentral.setLayout(null);
-		paInf.setBackground(new Color(0, 206, 209));
+		paInf.setBackground(new Color(28, 49, 49));
 		txtCod.setEditable(false);
 		txtProf.setEditable(false);
 		Font fonteOpenSans1 = new Font("Open Sans", Font.PLAIN, 12);
+		txtCod.setHorizontalAlignment(JTextField.CENTER);
 		
 		lblContinuaPontos.setFont(fonteOpenSans1);
 		lblEtapa.setFont(fonteOpenSans1);
@@ -113,25 +123,107 @@ public class CadastrarAtividade extends JFrame implements ActionListener{
 		lblProf.setFont(fonteOpenSans1);
 		lblValor.setFont(fonteOpenSans1);
 		
+		lblNome.setForeground(Color.WHITE);
+		lblProf.setForeground(Color.WHITE);
+		lblContinuaPontos.setForeground(Color.WHITE);
+		lblEtapa.setForeground(Color.WHITE);
+		lblExemploEt.setForeground(Color.WHITE);
+		lblMateria.setForeground(Color.WHITE);
+		lblPrioridade.setForeground(Color.WHITE);
+		lblValor.setForeground(Color.WHITE);
+		
+		txtEtapa.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+		txtProf.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+		txtValor.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+		
+	}
+	//DADOS DE LOGIN - BD
+	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
+			   usuario = "root",
+			   senha = "root";
+	private Connection conexao;
+	private Statement stm;
+	private ResultSet rs;
+	
+	//VÁRIAVEIS - BD
+	private int codigo;
+	
+	//BANCO DE DADOS
+	
+	public void codigo() {
+		
+		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm = conexao.createStatement();
+
+			this.rs = stm.executeQuery("SELECT MAX(idAtividade) FROM atividade;");
+			rs.next();
+			
+			rs.getString("MAX(idAtividade)");
+			if(rs.wasNull()) {
+				codigo= 1;
+			}
+			else {
+				this.codigo = ((Number) rs.getObject(1)).intValue();
+				this.codigo = codigo + 1;
+			}
+			txtCod.setText(Integer.toString(codigo));
+			stm.close();	
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void addCoisasCB() {
-		cbMateria.addItem("Nenhum");
-		cbMateria.addItem("Ednaldo Pereira");
+	public void carregaMaterias() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+			rs = stm.executeQuery("select nome from materia");
+			Vector linhas = new Vector();			
+			
+			while(rs.next()) {
+				cbMateria.addItem(rs.getString("nome"));
+			}
+			
+			stm.close(); 
+			revalidate();
+			
+
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void carregaTipoAtv() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+			rs = stm.executeQuery("select nome from tipo_atividade");
+			Vector linhas = new Vector();			
+			
+			while(rs.next()) {
+				cbMateria.addItem(rs.getString("nome"));
+			}
+			
+			stm.close(); 
+			revalidate();
+			
+
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void enviaDados() {
-		
-	}
-	
-	//EXECUTA AÇÕES
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnCancelar) {
-			dispose();
-		}
-		if (e.getSource() == btnSalvar) {
-			enviaDados();
-		}
 		
 	}
 	
@@ -147,13 +239,64 @@ public class CadastrarAtividade extends JFrame implements ActionListener{
 		adicionador();
 		posicionador();
 		estilizador();
-		addCoisasCB();
+		codigo();
+		carregaMaterias();
+		carregaTipoAtv();
 		
-		btnCancelar.addActionListener(this);
-		btnSalvar.addActionListener(this);
+		btnCancelar.addMouseListener(this);
+		btnSalvar.addMouseListener(this);
 		
 		repaint();
 		this.setVisible(true);
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnCancelar) {
+			dispose();
+		}
+		if (e.getSource() == btnSalvar) {
+			if (! txtNome.getText().equals("")) {
+				enviaDados();
+				dispose();
+			}
+		}
+	}
 
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if(e.getSource() == btnSalvar) {
+			btnSalvar.setIcon(new ImageIcon("img/geral/btn_Salvar_hovermdpi.png"));
+		}
+		if(e.getSource() == btnCancelar) {
+			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Cancelar_hovermdpi.png"));
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if(e.getSource() == btnSalvar) {
+			btnSalvar.setIcon(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
+		}
+		if(e.getSource() == btnCancelar) {
+			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Cancelarmdpi.png"));
+		}
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+
+
+

@@ -185,8 +185,8 @@ public class CadastrarMateria extends JFrame implements ActionListener, MouseLis
 		txtCod.setEditable(false);
 		Font fonteOpenSans1 = new Font("Open Sans", Font.PLAIN, 12);
 		
-		txtCod.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-		txtNome.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		txtCod.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		
 		lblNome.setFont(fonteOpenSans1);
 		lblProf.setFont(fonteOpenSans1);
