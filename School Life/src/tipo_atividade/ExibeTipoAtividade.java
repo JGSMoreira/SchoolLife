@@ -1,6 +1,7 @@
 package tipo_atividade;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Vector;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,9 +42,7 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener, MouseL
 	
 	public ExibeTipoAtividade() {
 		
-		setBounds(100,100,400,185);
-		setLayout(new BorderLayout());
-		this.setLocationRelativeTo(null);
+		setBounds(300, 300, 450, 300);
 		setVisible(true);
 
 		setTitle("School Life - Lista de Tipos de Atividades");
@@ -50,7 +51,9 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener, MouseL
 		setResizable(false);
 		revalidate();
 		
+		btnCancelar.addMouseListener(this);
 		btnCancelar.setFont(fonte);
+		
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -103,7 +106,7 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener, MouseL
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if(e.getSource() == btnCancelar) {
-			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Salvar_hovermdpi.png"));
+			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Cancelar_hovermdpi.png"));
 		}
 
 		
@@ -112,7 +115,7 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener, MouseL
 	@Override
 	public void mouseExited(MouseEvent e) {
 		if(e.getSource() == btnCancelar) {
-			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
+			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Cancelarmdpi.png"));
 		}
 		
 	}
