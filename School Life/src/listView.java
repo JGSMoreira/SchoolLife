@@ -137,7 +137,7 @@ public class listView extends JFrame implements ActionListener{
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
 			setVisible(true);
-			setResizable(true);
+			setResizable(false);
 			this.setLayout(new BorderLayout());
 			gradeInferior.setLayout(null);
 
