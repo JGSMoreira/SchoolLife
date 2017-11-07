@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +26,7 @@ import javax.swing.JTextField;
 
 import javafx.scene.layout.Border;
 
-public class CadastroProfessor extends JFrame implements ActionListener, MouseListener{
+public class VisualizaProfessor extends JFrame implements ActionListener, MouseListener{
 	
 	/**
 	 * 
@@ -43,8 +45,8 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 	private int codigo;
 	private ResultSet rs;
 	
-	private JLabel btnSalvar = new JLabel(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
-	private JLabel btnCancelar = new JLabel(new ImageIcon("img/geral/btn_Cancelarmdpi.png"));
+	private JLabel btnOk = new JLabel(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
+	
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 12);
 	
@@ -55,9 +57,9 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 	private Connection conexao;
 	private Statement stm;
 	
-	public CadastroProfessor () {
+	public VisualizaProfessor () {
 		setBounds(100,100,400,185);
-		setTitle("School Life - Cadastro de Professor");
+		setTitle("School Life - Visualizar Professor");
 		setVisible(true);
 		setResizable(false);
 		setLayout(new BorderLayout());
@@ -68,8 +70,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		
 		paCentral.setLayout(null);
 		
-		btnCancelar.addMouseListener(this);
-		btnSalvar.addMouseListener(this);
+		btnOk.addMouseListener(this);
 	
 		lblNome.setBounds(15, 15, 100, 30);
 		paCentral.add(lblNome);
@@ -85,6 +86,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		txtEmail.setBounds(125, 65, 240, 30);
 		txtEmail.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		txtEmail.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+		txtEmail.setEditable(false);
 		
 		txtNome.setBounds(180, 15, 185, 30);
 		paCentral.add(txtNome);
@@ -92,6 +94,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		txtNome.requestFocus();
 		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		txtNome.setFont(fonte);
+		txtNome.setEditable(false);
 		
 		txtCodigo.setBounds(125, 15, 50, 30);
 		paCentral.add(txtCodigo);
@@ -100,65 +103,40 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		txtCodigo.setEditable(false);
 		txtCodigo.setFont(fonte);
 		
-		paInferior.add(btnSalvar);
-		btnSalvar.setFont(fonte);
-		
-		paInferior.add(btnCancelar);
+		paInferior.add(btnOk);
+		btnOk.setFont(fonte);
 		
 		paCentral.setBackground(new Color(16, 28, 28));
 		lblNome.setForeground(Color.WHITE);
 		paInferior.setBackground(new Color(28, 49, 49));
 		
-		codigo();
+		VisualizarProfessor();
 
 	}
 	
-	public void codigo() {
-		try {
-			conexao = DriverManager.getConnection(url, usuario, senha);
-			stm=conexao.createStatement();
-
-			this.rs=stm.executeQuery("SELECT MAX(idprofessor) FROM professor;");
-			rs.next();
-
-			rs.getString("MAX(idProfessor)");
-			if(rs.wasNull()) {
-				codigo = 1;
-			}
-			else {
-				this.codigo=((Number) rs.getObject(1)).intValue();
-				this.codigo=codigo + 1;
-			}
-			
-			txtCodigo.setText(Integer.toString(codigo));
-
-			stm.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnSalvar) {
+		if (e.getSource() == btnOk) {
 			if (! txtNome.getText().equals("")) {
-				salvarProfessor();
-			}
-			else if (e.getSource() == btnCancelar) {
 				dispose();
 			}
 		}
 	}
 	
-	public void salvarProfessor() {
+	public void VisualizarProfessor() {
 		try {
 		Class.forName("com.mysql.jdbc.Driver");
 		conexao = DriverManager.getConnection(url, usuario, senha);
 		stm=conexao.createStatement();
 		
-		stm.executeUpdate("insert into professor (nome, email) values" + "('"+txtNome.getText()+"', '"+txtEmail.getText()+"');");
+		stm.executeQuery("select * from professor where idProfessor = '"++"'");
 	
-		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
-		stm.close();		
+		stm.close();
+		
+			txtNome.setText(rs.getString("idprofessor"));
+
+			
+		
 		}
 		
 		catch(Exception e) {
@@ -169,39 +147,23 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == btnCancelar) {
+		if (e.getSource() == btnOk) {
 			dispose();
-		}
-		if (e.getSource() == btnSalvar) {
-			if (! txtNome.getText().equals("")) {
-				salvarProfessor();
-				txtNome.setText("");
-				txtEmail.setText("");
-				txtNome.requestFocus();
-				codigo();
-				revalidate();
-			}
 		}
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if(e.getSource() == btnSalvar) {
-			btnSalvar.setIcon(new ImageIcon("img/geral/btn_Salvar_hovermdpi.png"));
-		}
-		if(e.getSource() == btnCancelar) {
-			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Cancelar_hovermdpi.png"));
+		if(e.getSource() == btnOk) {
+			btnOk.setIcon(new ImageIcon("img/geral/btn_Salvar_hovermdpi.png"));
 		}
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if(e.getSource() == btnSalvar) {
-			btnSalvar.setIcon(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
-		}
-		if(e.getSource() == btnCancelar) {
-			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Cancelarmdpi.png"));
+		if(e.getSource() == btnOk) {
+			btnOk.setIcon(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
 		}
 		
 	}
@@ -218,5 +180,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		
 	}
 	
+	public static void main(String[] args) {
+		VisualizaProfessor vp = new VisualizaProfessor();
+	}
 }
-
