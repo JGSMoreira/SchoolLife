@@ -19,11 +19,17 @@ import javax.swing.JTextField;
 
 public class listView extends JFrame implements ActionListener{
 	
-	JPanel grandeInferior = new JPanel(),
+	JPanel gradeInferior = new JPanel(),
 		   navbar = new  JPanel();
 	JScrollPane pa = new JScrollPane();
 	JTextField txtPesq = new JTextField(30);
 	JButton btnBusc = new JButton("Pesquisar");
+	
+	JButton btnEditar = new JButton("Editar"),
+			btnExcluir = new JButton("Excluir"),
+			btnVer = new JButton("Ver");
+	
+	JScrollPane scroll = new JScrollPane(gradeInferior);
 	
 	//DADOS DE LOGIN - BD
 		private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
@@ -34,132 +40,84 @@ public class listView extends JFrame implements ActionListener{
 		private ResultSet rs;
 		
 	//BANCO DE DADOS
-		
 		public void getDados() {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				conexao = DriverManager.getConnection(url, usuario, senha);
-				stm=conexao.createStatement();
-				this.rs = stm.executeQuery("select * from professor;");
-				
-				int espacamento = 0;
-				int primeiro = 0;
-				
-				while(rs.next()) {
-					JLabel aa = new JLabel(),
-						   cc = new JLabel();
-					JSeparator se = new JSeparator();
-					JButton btnEditar = new JButton("Editar"),
-							btnExcluir = new JButton("Excluir"),
-							btnVer = new JButton("Ver");
-					
-					aa.setText(rs.getString("nome"));
-					cc.setText(rs.getString("idProfessor"));
-					
-					if (primeiro ==  0) {
-						espacamento = 15;
-						cc.setBounds(25, espacamento, 1000, 25);
-						aa.setBounds(75, espacamento, 1000, 25);
-						primeiro = 1;
-						
-					}
-					else {
-						cc.setBounds(25, espacamento, 1000, 25);
-						aa.setBounds(75, espacamento, 1000, 25);
-								
-					}
-					
-					grandeInferior.add(aa);
-					grandeInferior.add(cc);
-					grandeInferior.add(se);
-					grandeInferior.add(btnEditar);
-					grandeInferior.add(btnVer);
-					grandeInferior.add(btnExcluir);
-					
-					btnEditar.setBounds(510, espacamento - 5, 75, 35);
-					btnVer.setBounds(595, espacamento - 5, 75, 35);
-					btnExcluir.setBounds(680, espacamento - 5, 75, 35);
-					
-					se.setBounds(0, espacamento + 40, 1000, 1);
-					
-					espacamento = espacamento + 55;
-				}
-				
-				stm.close();
-				
-			}
-			
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-			this.add(grandeInferior, BorderLayout.CENTER);
+			String comando = "select * from professor;";
+			carregaDados(comando);
 		}
 		
 		public void getDadosPesquisa() {
+			String comando = "select * from professor where nome like '%" + txtPesq.getText() + "%';";
+			carregaDados(comando);
+		}
+	
+		public void carregaDados(String comando) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				conexao = DriverManager.getConnection(url, usuario, senha);
 				stm=conexao.createStatement();
-				this.rs = stm.executeQuery("select * from professor where nome like '" + txtPesq.getText() + "';");
+				this.rs = stm.executeQuery(comando);
 				
 				int espacamento = 0;
 				int primeiro = 0;
+						
+				gradeInferior.removeAll();
 				
-				this.remove(grandeInferior);
 				while(rs.next()) {
 					JLabel aa = new JLabel(),
 						   cc = new JLabel();
 					JSeparator se = new JSeparator();
-					JButton btnEditar = new JButton("Editar"),
-							btnExcluir = new JButton("Excluir"),
-							btnVer = new JButton("Ver");
+					
 					
 					aa.setText(rs.getString("nome"));
 					cc.setText(rs.getString("idProfessor"));
 					
-					if (primeiro ==  0) {
-						espacamento = 15;
-						cc.setBounds(25, espacamento, 1000, 25);
-						aa.setBounds(75, espacamento, 1000, 25);
-						primeiro = 1;
-						
+					rs.getInt("idProfessor");
+					if (rs.wasNull()) {
+						JLabel lblNaoEncont = new JLabel("NENHUM DADO ENCONTRADO!");
+						gradeInferior.add(lblNaoEncont, BorderLayout.CENTER);
+						revalidate();
 					}
 					else {
-						cc.setBounds(25, espacamento, 1000, 25);
-						aa.setBounds(75, espacamento, 1000, 25);
-								
+						if (primeiro ==  0) {
+							espacamento = 15;
+							cc.setBounds(25, espacamento, 1000, 25);
+							aa.setBounds(75, espacamento, 1000, 25);
+							primeiro = 1;
+						}
+						else {
+							cc.setBounds(25, espacamento, 1000, 25);
+							aa.setBounds(75, espacamento, 1000, 25);	
+						}
+						
+						gradeInferior.add(aa);
+						gradeInferior.add(cc);
+						gradeInferior.add(se);
+						gradeInferior.add(btnEditar);
+						gradeInferior.add(btnVer);
+						gradeInferior.add(btnExcluir);
+						
+						aa.setForeground(Color.white);
+						cc.setForeground(Color.white);
+						
+						btnEditar.setBounds(510, espacamento - 5, 75, 35);
+						btnVer.setBounds(595, espacamento - 5, 75, 35);
+						btnExcluir.setBounds(680, espacamento - 5, 75, 35);
+						
+						se.setBounds(0, espacamento + 40, 1000, 1);
+						
+						espacamento = espacamento + 55;
 					}
-					
-					grandeInferior.add(aa);
-					grandeInferior.add(cc);
-					grandeInferior.add(se);
-					grandeInferior.add(btnEditar);
-					grandeInferior.add(btnVer);
-					grandeInferior.add(btnExcluir);
-					
-					btnEditar.setBounds(510, espacamento - 5, 75, 35);
-					btnVer.setBounds(595, espacamento - 5, 75, 35);
-					btnExcluir.setBounds(680, espacamento - 5, 75, 35);
-					
-					se.setBounds(0, espacamento + 40, 1000, 1);
-					
-					espacamento = espacamento + 55;
 				}
-				
 				stm.close();
-				
 			}
 			
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			this.add(grandeInferior, BorderLayout.CENTER);
-			
+			this.add(scroll, BorderLayout.CENTER);
 		}
-	
 	//ELEMENTOS DA TABELA
 		public void navBar() {
-			
 			txtPesq.setPreferredSize(new Dimension(20, 30));
 			btnBusc.setPreferredSize(new Dimension(110, 30));
 			navbar.add(txtPesq);
@@ -168,33 +126,43 @@ public class listView extends JFrame implements ActionListener{
 			this.add(navbar, BorderLayout.NORTH);
 		}
 		
+		public void estilizar() {
+			navbar.setBackground(new Color(47,79,79));
+			gradeInferior.setBackground(new Color(16, 28, 28));
+		}
+		
 		public listView() {
-			this.setLocationRelativeTo(null);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
 			setBounds(100, 100, 800, 600);
+			this.setLocationRelativeTo(null);
 			setVisible(true);
-			setResizable(false);
+			setResizable(true);
 			this.setLayout(new BorderLayout());
-			grandeInferior.setLayout(null);
+			gradeInferior.setLayout(null);
 
 			getDados();
 			navBar();
+			estilizar();
 			revalidate();
 			repaint();
 			
+			scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			
 			btnBusc.addActionListener(this);
+			btnEditar.addActionListener(this);
 		}
 
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if (e.getSource() == btnBusc) {
 				getDadosPesquisa();
-				revalidate();
-				repaint();
+				this.revalidate();
+				this.repaint();
 			}
-			
+			if (e.getSource() == btnEditar) {
+				professor.EditaProfessor edit = new professor.EditaProfessor("Adriana Rigolon");
+			}
 		}
 		
 		public static void main (String [] args) {
