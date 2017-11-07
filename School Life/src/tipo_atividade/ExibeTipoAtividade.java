@@ -4,47 +4,53 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Vector;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
-public class ExibeTipoAtividade extends JFrame implements ActionListener{
-	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
-			   usuario = "root",
-			   senha = "root";
-	private Font fonte = new Font ("Open Sans", Font.TYPE1_FONT, 16);
-	
-	private Connection conexao;
-	private Statement stm;
-	private JButton btnFechar = new JButton("Fechar");
+public class ExibeTipoAtividade extends JFrame implements ActionListener, MouseListener{
 	private ResultSet rs;
 	private JTable tabela;
 	private JScrollPane scroller;
-	private JPanel painelSul = new JPanel();
+	private JPanel paInferior = new JPanel();
+
+	private JLabel btnCancelar = new JLabel(new ImageIcon("img/geral/btn_Cancelarmdpi.png"));
 	
+	private Font fonte = new Font ("Open Sans", Font.PLAIN, 12);
+	
+	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
+			   usuario = "root",
+			   senha = "root";
+	
+	private Connection conexao;
+	private Statement stm;
 	
 	public ExibeTipoAtividade() {
 		
-		setBounds(300, 300, 450, 300);
+		setBounds(100,100,400,185);
+		setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
 		setVisible(true);
 
 		setTitle("School Life - Lista de Tipos de Atividades");
-		painelSul.add(btnFechar);
-		btnFechar.addActionListener(this);
-		add(painelSul, BorderLayout.SOUTH);
+		paInferior.add(btnCancelar);
+		add(paInferior, BorderLayout.SOUTH);
 		setResizable(false);
 		revalidate();
 		
-		btnFechar.setFont(fonte);
+		btnCancelar.setFont(fonte);
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -80,11 +86,46 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnFechar)
-			dispose();
+
 	}
 	
 	public static void main(String[] args) {
 		ExibeTipoAtividade ep = new ExibeTipoAtividade();
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnCancelar) {
+			dispose();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		if(e.getSource() == btnCancelar) {
+			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Salvar_hovermdpi.png"));
+		}
+
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if(e.getSource() == btnCancelar) {
+			btnCancelar.setIcon(new ImageIcon("img/geral/btn_Salvarmdpi.png"));
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

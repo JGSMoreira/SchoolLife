@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 import atividade.CadastrarAtividade;
 import materia.CadastrarMateria;
+import professor.ExibeProfessor;
 
 public class Menu extends JFrame implements ActionListener, MouseListener{
 	
@@ -83,6 +84,9 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		}
 		if (e.getSource() == miAddTipoAtividade) {
 			tipo_atividade.CadastroTipoAtividade a = new tipo_atividade.CadastroTipoAtividade();
+		}
+		if(e.getSource() == miVerProf) {
+			professor.ExibeProfessor vp = new  professor.ExibeProfessor();
 		}
 	}
 	
