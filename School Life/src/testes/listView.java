@@ -1,3 +1,4 @@
+package testes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -6,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JButton;
@@ -23,11 +25,10 @@ public class listView extends JFrame implements ActionListener{
 		   navbar = new  JPanel();
 	JScrollPane pa = new JScrollPane();
 	JTextField txtPesq = new JTextField(30);
-	JButton btnBusc = new JButton("Pesquisar");
+	JButton btnBusc = new JButton("Pesquisar"),
+			btnAtualizar = new JButton("Atualizar");
 	
-	JButton btnEditar = new JButton("Editar"),
-			btnExcluir = new JButton("Excluir"),
-			btnVer = new JButton("Ver");
+	
 	
 	JScrollPane scroll = new JScrollPane(gradeInferior);
 	
@@ -66,7 +67,9 @@ public class listView extends JFrame implements ActionListener{
 					JLabel aa = new JLabel(),
 						   cc = new JLabel();
 					JSeparator se = new JSeparator();
-					
+					JButton btnEditar = new JButton("Editar"),
+							btnExcluir = new JButton("Excluir"),
+							btnVer = new JButton("Ver");					
 					
 					aa.setText(rs.getString("nome"));
 					cc.setText(rs.getString("idProfessor"));
@@ -107,6 +110,8 @@ public class listView extends JFrame implements ActionListener{
 						
 						espacamento = espacamento + 55;
 					}
+					
+					btnEditar.addActionListener(e->{professor.EditaProfessor edita = new professor.EditaProfessor(aa.getText());});
 				}
 				stm.close();
 			}
@@ -120,6 +125,8 @@ public class listView extends JFrame implements ActionListener{
 		public void navBar() {
 			txtPesq.setPreferredSize(new Dimension(20, 30));
 			btnBusc.setPreferredSize(new Dimension(110, 30));
+			btnAtualizar.setPreferredSize(new Dimension(110, 30));
+			navbar.add(btnAtualizar);
 			navbar.add(txtPesq);
 			navbar.add(btnBusc);
 			navbar.setBounds(0, 0, 100, 100);
@@ -150,7 +157,7 @@ public class listView extends JFrame implements ActionListener{
 			scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			
 			btnBusc.addActionListener(this);
-			btnEditar.addActionListener(this);
+			btnAtualizar.addActionListener(this);
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -160,8 +167,10 @@ public class listView extends JFrame implements ActionListener{
 				this.revalidate();
 				this.repaint();
 			}
-			if (e.getSource() == btnEditar) {
-				professor.EditaProfessor edit = new professor.EditaProfessor("Adriana Rigolon");
+			if (e.getSource() == btnAtualizar) {
+				getDadosPesquisa();
+				this.revalidate();
+				this.repaint();
 			}
 		}
 		
