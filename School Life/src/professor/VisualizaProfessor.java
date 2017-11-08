@@ -57,7 +57,7 @@ public class VisualizaProfessor extends JFrame implements ActionListener, MouseL
 	private Connection conexao;
 	private Statement stm;
 	
-	public VisualizaProfessor () {
+	public VisualizaProfessor (String nomeProf) {
 		setBounds(100,100,400,185);
 		setTitle("School Life - Visualizar Professor");
 		setVisible(true);
@@ -110,10 +110,46 @@ public class VisualizaProfessor extends JFrame implements ActionListener, MouseL
 		lblNome.setForeground(Color.WHITE);
 		paInferior.setBackground(new Color(28, 49, 49));
 		
-		VisualizarProfessor();
-
+		codigo(nomeProf);
 	}
 	
+	public void carregaDados(int codigo) {
+		try {
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+
+			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(email) FROM professor where idProfessor = " + codigo + ";");
+			rs.next();
+
+			txtNome.setText(rs.getString("MAX(nome)"));
+			txtEmail.setText(rs.getString("MAX(email)"));
+
+			stm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void codigo(String nomeProf) {
+		try {
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+
+			this.rs=stm.executeQuery("SELECT idProfessor FROM professor where nome like '%" + nomeProf + "%';");
+			rs.next();
+
+			rs.getString("idProfessor");
+			this.codigo=((Number) rs.getObject(1)).intValue();
+			
+			txtCodigo.setText(Integer.toString(codigo));
+
+			stm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		carregaDados(codigo);
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnOk) {
@@ -129,16 +165,12 @@ public class VisualizaProfessor extends JFrame implements ActionListener, MouseL
 		conexao = DriverManager.getConnection(url, usuario, senha);
 		stm=conexao.createStatement();
 		
-		stm.executeQuery("select * from professor where idProfessor = '"++"'");
-	
-		stm.close();
+		stm.executeQuery("select * from professor where idProfessor = '"+"'");
 		
 			txtNome.setText(rs.getString("idprofessor"));
-
-			
+			stm.close();
 		
 		}
-		
 		catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,7 @@
 package tipo_atividade;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +25,7 @@ import javax.swing.JFrame;
 
 public class CadastroTipoAtividade extends JFrame implements ActionListener, MouseListener{
 
-	private JLabel lblNomeT = new JLabel("Nome:"),
-				   lblCodigo = new JLabel("Código:");
+	private JLabel lblNomeT = new JLabel("Nome:");
 	private JTextField txtNomeT = new JTextField(),
 					   txtCodigo = new JTextField();
 
@@ -38,7 +38,7 @@ public class CadastroTipoAtividade extends JFrame implements ActionListener, Mou
 	private int codigo;
 	private ResultSet rs;
 	
-	private Font fonte = new Font ("Open Sans", Font.TYPE1_FONT, 16);
+	private Font fonte = new Font ("Open Sans", Font.PLAIN, 12);
 	
 	private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
 			   usuario = "root",
@@ -54,37 +54,31 @@ public class CadastroTipoAtividade extends JFrame implements ActionListener, Mou
 		add(paCentral, BorderLayout.CENTER);
 		add(paInferior, BorderLayout.SOUTH);
 
-		setBounds(100,100,400,250);
+		setBounds(100,100,400,100);
 		setVisible(true);
 		setLayout(new BorderLayout());
 		this.setLocationRelativeTo(null);
 		setResizable(false);
 		paCentral.setLayout(null);
+		paInferior.setLayout(new FlowLayout());
 		
-		lblNomeT.setBounds(50, 100, 100, 20);
+		lblNomeT.setBounds(15, 15, 100, 30);
 		lblNomeT.setFont(fonte);
 		lblNomeT.setForeground(Color.WHITE);
 		add(lblNomeT);
 		
-		lblCodigo.setBounds(50, 20, 80, 50);
-		lblCodigo.setFont(fonte);
-		lblCodigo.setForeground(Color.WHITE);
-		add(lblCodigo);
-		
-		txtCodigo.setBounds(120, 30, 50, 30);
+		txtCodigo.setBounds(125, 15, 50, 30);
 		txtCodigo.setFont(fonte);
 		txtCodigo.setEditable(false);
 		add(txtCodigo);
 		
-		txtNomeT.setBounds(120, 98, 200, 30);
+		txtNomeT.setBounds(180, 15, 185, 30);
 		txtNomeT.setFont(fonte);
 		add(txtNomeT);
 		
-		btnSalvar.setBounds(50, 200, 100, 40);
 		add(btnSalvar);
 		btnSalvar.setFont(fonte);
 		
-		btnCancelar.setBounds(250, 200, 100, 40);
 		add(btnCancelar);
 		btnCancelar.setFont(fonte);
 		
@@ -103,7 +97,6 @@ public class CadastroTipoAtividade extends JFrame implements ActionListener, Mou
 		paInferior.setBackground(new Color(28, 49, 49));
 		
 		paCentral.add(txtCodigo);
-		paCentral.add(lblCodigo);
 		paCentral.add(lblNomeT);
 		paCentral.add(txtNomeT);
 		

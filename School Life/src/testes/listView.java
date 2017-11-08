@@ -2,8 +2,10 @@ package testes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,18 +21,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-public class listView extends JFrame implements ActionListener{
+import org.w3c.dom.events.MouseEvent;
+
+import professor.CadastroProfessor;
+
+public class listView extends JFrame implements ActionListener, MouseListener{
 	
-	JPanel gradeInferior = new JPanel(),
-		   navbar = new  JPanel();
-	JScrollPane pa = new JScrollPane();
-	JTextField txtPesq = new JTextField(30);
-	JButton btnBusc = new JButton("Pesquisar"),
-			btnAtualizar = new JButton("Atualizar");
+	private JPanel gradeInferior = new JPanel(),
+				   navbar = new  JPanel();
+	private JScrollPane pa = new JScrollPane();
+	private JTextField txtPesq = new JTextField(30);
+	private JButton btnBusc = new JButton("Pesquisar"),
+			        btnAtualizar = new JButton("Atualizar");
+	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
 	
-	
-	
-	JScrollPane scroll = new JScrollPane(gradeInferior);
+	private JScrollPane scroll = new JScrollPane(gradeInferior);
+	private Font fonte = new Font ("Open Sans", Font.PLAIN, 14);
+	private Font fonteNegrito = new Font ("Open Sans", Font.BOLD, 12);
 	
 	//DADOS DE LOGIN - BD
 		private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
@@ -50,7 +57,6 @@ public class listView extends JFrame implements ActionListener{
 			String comando = "select * from professor where nome like '%" + txtPesq.getText() + "%';";
 			carregaDados(comando);
 		}
-	
 		public void carregaDados(String comando) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
@@ -64,15 +70,15 @@ public class listView extends JFrame implements ActionListener{
 				gradeInferior.removeAll();
 				
 				while(rs.next()) {
-					JLabel aa = new JLabel(),
-						   cc = new JLabel();
-					JSeparator se = new JSeparator();
+					JLabel nomeProf = new JLabel(),
+						   codProf = new JLabel();						   
+					JSeparator separador = new JSeparator();
 					JButton btnEditar = new JButton("Editar"),
 							btnExcluir = new JButton("Excluir"),
 							btnVer = new JButton("Ver");					
 					
-					aa.setText(rs.getString("nome"));
-					cc.setText(rs.getString("idProfessor"));
+					nomeProf.setText(rs.getString("nome"));
+					codProf.setText(rs.getString("idProfessor"));
 					
 					rs.getInt("idProfessor");
 					if (rs.wasNull()) {
@@ -83,37 +89,49 @@ public class listView extends JFrame implements ActionListener{
 					else {
 						if (primeiro ==  0) {
 							espacamento = 15;
-							cc.setBounds(25, espacamento, 1000, 25);
-							aa.setBounds(75, espacamento, 1000, 25);
+							codProf.setBounds(25, espacamento, 1000, 25);
+							nomeProf.setBounds(75, espacamento, 1000, 25);
 							primeiro = 1;
 						}
 						else {
-							cc.setBounds(25, espacamento, 1000, 25);
-							aa.setBounds(75, espacamento, 1000, 25);	
+							codProf.setBounds(25, espacamento, 1000, 25);
+							nomeProf.setBounds(75, espacamento, 1000, 25);	
 						}
 						
-						gradeInferior.add(aa);
-						gradeInferior.add(cc);
-						gradeInferior.add(se);
+						gradeInferior.add(nomeProf);
+						gradeInferior.add(codProf);
+						gradeInferior.add(separador);
 						gradeInferior.add(btnEditar);
 						gradeInferior.add(btnVer);
 						gradeInferior.add(btnExcluir);
 						
-						aa.setForeground(Color.white);
-						cc.setForeground(Color.white);
+						nomeProf.setForeground(Color.white);
+						codProf.setForeground(Color.white);
 						
 						btnEditar.setBounds(510, espacamento - 5, 75, 35);
 						btnVer.setBounds(595, espacamento - 5, 75, 35);
 						btnExcluir.setBounds(680, espacamento - 5, 75, 35);
 						
-						se.setBounds(0, espacamento + 40, 1000, 1);
+						separador.setBounds(0, espacamento + 40, 1000, 1);
 						
 						espacamento = espacamento + 55;
 					}
+					separador.setForeground(new Color(47,79,79));
 					
-					btnEditar.addActionListener(e->{professor.EditaProfessor edita = new professor.EditaProfessor(aa.getText());});
+					codProf.setFont(fonte);
+					nomeProf.setFont(fonte);
+					
+					
+					btnEditar.addActionListener(e->{professor.EditaProfessor edita = new professor.EditaProfessor(nomeProf.getText());});
+					btnVer.addActionListener(e->{professor.VisualizaProfessor deletar = new professor.VisualizaProfessor(nomeProf.getText());});
+					btnExcluir.addActionListener(e->{professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());});
 				}
 				stm.close();
+				gradeInferior.add(addProf);
+				addProf.setBounds(605, espacamento - 5, 300, 25);
+				addProf.setForeground(Color.white);
+				addProf.setFont(fonteNegrito);
+				
 			}
 			
 			catch(Exception e) {
@@ -155,9 +173,9 @@ public class listView extends JFrame implements ActionListener{
 			repaint();
 			
 			scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			
 			btnBusc.addActionListener(this);
 			btnAtualizar.addActionListener(this);
+			addProf.addMouseListener(this);
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -176,6 +194,38 @@ public class listView extends JFrame implements ActionListener{
 		
 		public static void main (String [] args) {
 			listView list = new listView();
+		}
+
+		@Override
+		public void mouseClicked(java.awt.event.MouseEvent e) {
+			if (e.getSource() == addProf) {
+				CadastroProfessor cad = new CadastroProfessor();
+			}
+			
+		}
+
+		@Override
+		public void mouseEntered(java.awt.event.MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(java.awt.event.MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(java.awt.event.MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(java.awt.event.MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 
 }

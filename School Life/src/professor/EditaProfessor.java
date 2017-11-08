@@ -24,9 +24,11 @@ public class EditaProfessor extends JFrame implements MouseListener{
 	
 private static final long serialVersionUID = -4248697972014390077L;
 	
-	private JLabel lblNome = new JLabel("Nome");
+	private JLabel lblNome = new JLabel("Nome"),
+				   lblEmail = new JLabel("E-mail");
 	private JTextField txtNome = new JTextField(),
-					   txtCodigo = new JTextField();
+					   txtCodigo = new JTextField(),
+					   txtEmail = new JTextField();
 	
 	private JPanel paCentral = new JPanel(),
 				   paInferior = new JPanel();
@@ -47,7 +49,7 @@ private static final long serialVersionUID = -4248697972014390077L;
 	private Statement stm;
 	
 	public EditaProfessor (String nomeProf) {
-		setBounds(100,100,400,140);
+		setBounds(100,100,400,185);
 		setTitle("School Life - Edição de Professor");
 		setVisible(true);
 		setResizable(false);
@@ -62,10 +64,20 @@ private static final long serialVersionUID = -4248697972014390077L;
 		btnCancelar.addMouseListener(this);
 		btnSalvar.addMouseListener(this);
 		
-
 		lblNome.setBounds(15, 15, 100, 30);
 		paCentral.add(lblNome);
 		lblNome.setFont(fonte);
+		
+		lblEmail.setFont(fonte);
+		lblEmail.setForeground(Color.WHITE);
+		paCentral.add(lblEmail);
+		lblEmail.setBounds(15, 65, 100, 30);
+		
+		txtEmail.setFont(fonte);
+		paCentral.add(txtEmail);
+		txtEmail.setBounds(125, 65, 240, 30);
+		txtEmail.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+		txtEmail.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		
 		txtNome.setBounds(180, 15, 185, 30);
 		paCentral.add(txtNome);
@@ -100,10 +112,11 @@ private static final long serialVersionUID = -4248697972014390077L;
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 
-			this.rs=stm.executeQuery("SELECT MAX(nome) FROM professor where idProfessor = " + codigo + ";");
+			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(email) FROM professor where idProfessor = " + codigo + ";");
 			rs.next();
 
 			txtNome.setText(rs.getString("MAX(nome)"));
+			txtEmail.setText(rs.getString("MAX(email)"));
 
 			stm.close();
 		} catch (SQLException e) {
@@ -138,8 +151,9 @@ private static final long serialVersionUID = -4248697972014390077L;
 		conexao = DriverManager.getConnection(url, usuario, senha);
 		stm=conexao.createStatement();
 		
-		stm.executeUpdate("update professor set nome = '" + txtNome.getText() + "' where idProfessor = " + codigo);
-	
+		stm.executeUpdate("update professor set nome = '" + txtNome.getText() + "' where idProfessor = " + codigo + ";");
+		stm.executeUpdate("update professor set email = '" + txtEmail.getText() + "' where idProfessor = " + codigo + ";");
+		
 		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
 		stm.close();		
 		}
