@@ -46,6 +46,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				   lblExemploEt = new JLabel("(Ex. 1, 2, 3, 4, etc.)"),
 				   lblDataEntrega = new JLabel("Data de entrega"),
 				   lblDe = new JLabel("de"),
+				   lblDe2 = new JLabel("de"),
 				   lblContinuaPontos = new JLabel("Pontos");
 	
 	private JTextField txtNome = new JTextField(15),
@@ -95,13 +96,14 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		paCentral.add(cbMes);
 		paCentral.add(lblDataEntrega);
 		paCentral.add(lblDe);
+		paCentral.add(lblDe2);
 		
 	}
 	
 	public void verifica_data() {
 		
 		if (cbMes.getSelectedItem() == "Janeiro") {
-			for (int i=0; i<32; i++) {
+			for (int i=1; i<32; i++) {
 				cbDia.addItem(i);
 				revalidate();
 				repaint();
@@ -109,14 +111,14 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 			}
 		
 			else if (cbMes.getSelectedItem() == "Fevereiro") {
-				for (int i=0; i<30; i++) {
+				for (int i=1; i<30; i++) {
 					cbDia.addItem(i);	
 					revalidate();
 					repaint();
 				}
 			}
 				else if(cbMes.getSelectedItem() == "Março") {
-					for (int i=0; i<31; i++) {
+					for (int i=1; i<31; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -124,7 +126,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 			
 				else if(cbMes.getSelectedItem() == "Abril") {
-					for (int i=0; i<32; i++) {
+					for (int i=1; i<32; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -132,7 +134,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Maio") {
-					for (int i=0; i<31; i++) {
+					for (int i=1; i<31; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -140,7 +142,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Junho") {
-					for (int i=0; i<32; i++) {
+					for (int i=1; i<32; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -148,7 +150,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Julho") {
-					for (int i=0; i<31; i++) {
+					for (int i=1; i<31; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -156,7 +158,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Agosto") {
-					for (int i=0; i<32; i++) {
+					for (int i=1; i<32; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -164,7 +166,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Setembro") {
-					for (int i=0; i<31; i++) {
+					for (int i=1; i<31; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -172,7 +174,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Outubro") {
-					for (int i=0; i<32; i++) {
+					for (int i=1; i<32; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -180,7 +182,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Novembro") {
-					for (int i=0; i<31; i++) {
+					for (int i=1; i<31; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -188,7 +190,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				}
 		
 				else if(cbMes.getSelectedItem() == "Dezembro") {
-					for (int i=0; i<32; i++) {
+					for (int i=1; i<32; i++) {
 						cbDia.addItem(i);
 						revalidate();
 						repaint();
@@ -219,9 +221,12 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		cbPrioridade.setBounds(125, 190, 240, 30);
 		lblDataEntrega.setBounds(15, 140, 200, 200);
 		cbDia.setBounds(125, 225, 40, 30);
-		cbMes.setBounds(195, 225, 90, 30);
-		cbAno.setBounds(265, 225, 75, 30);
-		lblDe.setBounds(335, 225, 40, 30);
+		cbMes.setBounds(190, 225, 90, 30);
+		cbAno.setBounds(305, 225, 60, 30);
+		lblDe.setBounds(170, 225, 40, 30);
+		lblDe2.setBounds(285, 225, 40, 30);
+
+
 
 		
 	}
@@ -248,6 +253,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		cbMes.setFont(fonteOpenSans1);
 		cbAno.setFont(fonteOpenSans1);
 		lblDe.setFont(fonteOpenSans1);
+		lblDe2.setFont(fonteOpenSans1);
 		
 		lblNome.setForeground(Color.WHITE);
 		lblProf.setForeground(Color.WHITE);
@@ -259,6 +265,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		lblValor.setForeground(Color.WHITE);
 		lblDataEntrega.setForeground(Color.WHITE);
 		lblDe.setForeground(Color.WHITE);
+		lblDe2.setForeground(Color.white);
 		
 		txtEtapa.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
@@ -380,6 +387,8 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		cbMes.addItem("Outubro");
 		cbMes.addItem("Novembro");
 		cbMes.addItem("Dezembro");		
+		
+		cbAno.addItem(2017);
 		
 		adicionador();
 		posicionador();
