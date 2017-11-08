@@ -212,7 +212,4 @@ public class VisualizaProfessor extends JFrame implements ActionListener, MouseL
 		
 	}
 	
-	public static void main(String[] args) {
-		VisualizaProfessor vp = new VisualizaProfessor();
-	}
 }

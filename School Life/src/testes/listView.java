@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -20,22 +22,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.Scrollable;
+import javax.swing.SpringLayout;
 
 import org.w3c.dom.events.MouseEvent;
+import org.jdesktop.swingx.*;
 
 import professor.CadastroProfessor;
 
 public class listView extends JFrame implements ActionListener, MouseListener{
 	
-	private JPanel gradeInferior = new JPanel(),
-				   navbar = new  JPanel();
-	private JScrollPane pa = new JScrollPane();
+	private JPanel navbar = new  JPanel(),
+				   gradeInferior = new JXPanel();
 	private JTextField txtPesq = new JTextField(30);
 	private JButton btnBusc = new JButton("Pesquisar"),
 			        btnAtualizar = new JButton("Atualizar");
 	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
 	
-	private JScrollPane scroll = new JScrollPane(gradeInferior);
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 14);
 	private Font fonteNegrito = new Font ("Open Sans", Font.BOLD, 12);
 	
@@ -83,7 +86,8 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 					rs.getInt("idProfessor");
 					if (rs.wasNull()) {
 						JLabel lblNaoEncont = new JLabel("NENHUM DADO ENCONTRADO!");
-						gradeInferior.add(lblNaoEncont, BorderLayout.CENTER);
+						gradeInferior.add(lblNaoEncont);
+						lblNaoEncont.setBounds(50, 50, 100, 100);
 						revalidate();
 					}
 					else {
@@ -137,7 +141,12 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			catch(Exception e) {
 				e.printStackTrace();
 			}
+			gradeInferior.setSize(1000,1000); 
+			JScrollPane scroll = new JScrollPane(gradeInferior);
+			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			this.add(scroll, BorderLayout.CENTER);
+			revalidate();
+			repaint();
 		}
 	//ELEMENTOS DA TABELA
 		public void navBar() {
@@ -172,7 +181,6 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			revalidate();
 			repaint();
 			
-			scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			btnBusc.addActionListener(this);
 			btnAtualizar.addActionListener(this);
 			addProf.addMouseListener(this);
@@ -227,5 +235,7 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			// TODO Auto-generated method stub
 			
 		}
+
+
 
 }
