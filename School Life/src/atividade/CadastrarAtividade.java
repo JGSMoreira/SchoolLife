@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Vector;
 import java.awt.Font;
 import java.awt.TextField;
@@ -42,6 +44,8 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				   lblPrioridade = new JLabel("Prioridade"),
 				   lblProf = new JLabel("Professor"),
 				   lblExemploEt = new JLabel("(Ex. 1, 2, 3, 4, etc.)"),
+				   lblDataEntrega = new JLabel("Data de entrega"),
+				   lblDe = new JLabel("de"),
 				   lblContinuaPontos = new JLabel("Pontos");
 	
 	private JTextField txtNome = new JTextField(15),
@@ -49,6 +53,10 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 					   txtEtapa = new JTextField(15),
 					   txtProf = new JTextField(15),
 					   txtCod = new JTextField(15);
+	
+	private JComboBox cbDia = new JComboBox(),
+					  cbMes = new JComboBox(),
+					  cbAno = new JComboBox();
 	
 	private JPanel paInf = new JPanel(),
 				   paCentral = new JPanel();
@@ -82,6 +90,113 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		paCentral.add(txtValor);
 		paCentral.add(lblExemploEt);
 		paCentral.add(lblContinuaPontos);
+		paCentral.add(cbAno);
+		paCentral.add(cbDia);
+		paCentral.add(cbMes);
+		paCentral.add(lblDataEntrega);
+		paCentral.add(lblDe);
+		
+	}
+	
+	public void verifica_data() {
+		
+		if (cbMes.getSelectedItem() == "Janeiro") {
+			for (int i=0; i<32; i++) {
+				cbDia.addItem(i);
+				revalidate();
+				repaint();
+				}
+			}
+		
+			else if (cbMes.getSelectedItem() == "Fevereiro") {
+				for (int i=0; i<30; i++) {
+					cbDia.addItem(i);	
+					revalidate();
+					repaint();
+				}
+			}
+				else if(cbMes.getSelectedItem() == "Março") {
+					for (int i=0; i<31; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+			
+				else if(cbMes.getSelectedItem() == "Abril") {
+					for (int i=0; i<32; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Maio") {
+					for (int i=0; i<31; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Junho") {
+					for (int i=0; i<32; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Julho") {
+					for (int i=0; i<31; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Agosto") {
+					for (int i=0; i<32; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Setembro") {
+					for (int i=0; i<31; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Outubro") {
+					for (int i=0; i<32; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Novembro") {
+					for (int i=0; i<31; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+		
+				else if(cbMes.getSelectedItem() == "Dezembro") {
+					for (int i=0; i<32; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+						}
+				}
+			
+			revalidate();
+			repaint();
 		
 	}
 	
@@ -102,6 +217,12 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		lblContinuaPontos.setBounds(180, 155, 125, 30);
 		lblPrioridade.setBounds(15, 190, 80, 30);
 		cbPrioridade.setBounds(125, 190, 240, 30);
+		lblDataEntrega.setBounds(15, 140, 200, 200);
+		cbDia.setBounds(125, 225, 40, 30);
+		cbMes.setBounds(195, 225, 90, 30);
+		cbAno.setBounds(265, 225, 75, 30);
+		lblDe.setBounds(335, 225, 40, 30);
+
 		
 	}
 	
@@ -120,8 +241,13 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		lblMateria.setFont(fonteOpenSans1);
 		lblNome.setFont(fonteOpenSans1);
 		lblPrioridade.setFont(fonteOpenSans1);
+		lblDataEntrega.setFont(fonteOpenSans1);
 		lblProf.setFont(fonteOpenSans1);
 		lblValor.setFont(fonteOpenSans1);
+		cbDia.setFont(fonteOpenSans1);
+		cbMes.setFont(fonteOpenSans1);
+		cbAno.setFont(fonteOpenSans1);
+		lblDe.setFont(fonteOpenSans1);
 		
 		lblNome.setForeground(Color.WHITE);
 		lblProf.setForeground(Color.WHITE);
@@ -131,6 +257,8 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		lblMateria.setForeground(Color.WHITE);
 		lblPrioridade.setForeground(Color.WHITE);
 		lblValor.setForeground(Color.WHITE);
+		lblDataEntrega.setForeground(Color.WHITE);
+		lblDe.setForeground(Color.WHITE);
 		
 		txtEtapa.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
@@ -231,10 +359,27 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 	public CadastrarAtividade() {
 		
 		this.setTitle("School Life - Cadastrar Atividade");
-		this.setBounds(0, 0, 400, 300);
+		this.setBounds(0, 0, 400, 400);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		
+		cbPrioridade.addItem("Baixa");
+		cbPrioridade.addItem("Média");
+		cbPrioridade.addItem("Alta");
+		
+		cbMes.addItem("Janeiro");
+		cbMes.addItem("Fevereiro");
+		cbMes.addItem("Março");
+		cbMes.addItem("Abril");
+		cbMes.addItem("Maio");
+		cbMes.addItem("Junho");
+		cbMes.addItem("Julho");
+		cbMes.addItem("Agosto");
+		cbMes.addItem("Setembro");
+		cbMes.addItem("Outubro");
+		cbMes.addItem("Novembro");
+		cbMes.addItem("Dezembro");		
 		
 		adicionador();
 		posicionador();
@@ -242,6 +387,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		codigo();
 		carregaMaterias();
 		carregaTipoAtv();
+		verifica_data();
 		
 		btnCancelar.addMouseListener(this);
 		btnSalvar.addMouseListener(this);
