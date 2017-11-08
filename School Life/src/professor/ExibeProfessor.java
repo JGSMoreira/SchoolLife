@@ -48,22 +48,14 @@ public class ExibeProfessor extends JFrame implements ActionListener{
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			rs = stm.executeQuery("select * from professor");
-			Vector cabecalhos = new Vector(),
-				   linhas = new Vector();
-			cabecalhos.addElement("Código");
-			cabecalhos.addElement("Nome");
-			
 			
 			while(rs.next()) {
-				Vector linha = new Vector();
-				linha.addElement(rs.getString("idprofessor"));
-				linha.addElement(rs.getString("nome"));
-				linhas.addElement(linha);
+
 			}
 			
 			stm.close(); 
 			
-			tabela = new JTable(linhas, cabecalhos);
+			//Falta a barra de scrollagem
 			scroller = new JScrollPane(tabela);
 			this.add(scroller, BorderLayout.CENTER);
 			revalidate();
