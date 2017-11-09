@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -32,11 +33,11 @@ import professor.CadastroProfessor;
 
 public class listView extends JFrame implements ActionListener, MouseListener{
 	
-	private JPanel navbar = new  JPanel(),
-				   gradeInferior = new JXPanel();
+	private JPanel navbar = new JPanel();
+	private JXPanel gradeInferior = new JXPanel();
 	private JTextField txtPesq = new JTextField(30);
 	private JButton btnBusc = new JButton("Pesquisar"),
-			        btnAtualizar = new JButton("Atualizar");
+			        btnAtualizar = new JButton("Recarregar");
 	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 14);
@@ -52,13 +53,11 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 		
 	//BANCO DE DADOS
 		public void getDados() {
-			String comando = "select * from professor;";
-			carregaDados(comando);
+			carregaDados("select * from professor;");
 		}
 		
 		public void getDadosPesquisa() {
-			String comando = "select * from professor where nome like '%" + txtPesq.getText() + "%';";
-			carregaDados(comando);
+			carregaDados("select * from professor where nome like '%" + txtPesq.getText() + "%';");
 		}
 		public void carregaDados(String comando) {
 			try {
@@ -69,7 +68,7 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 				
 				int espacamento = 0;
 				int primeiro = 0;
-						
+				
 				gradeInferior.removeAll();
 				
 				while(rs.next()) {
@@ -131,20 +130,28 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 					btnExcluir.addActionListener(e->{professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());});
 				}
 				stm.close();
-				gradeInferior.add(addProf);
-				addProf.setBounds(605, espacamento - 5, 300, 25);
-				addProf.setForeground(Color.white);
-				addProf.setFont(fonteNegrito);
 				
+				if (primeiro == 0) {
+					addProf.setText("[CLIQUE AQUI PARA ADICIONAR PROFESSORES]");
+					gradeInferior.add(addProf);
+					addProf.setBounds(250, espacamento + 15, 300, 25);
+					addProf.setForeground(Color.white);
+					addProf.setFont(fonteNegrito);
+				}
+				else {
+					addProf.setText("+ ADICIONAR PROFESSOR");
+					gradeInferior.add(addProf);
+					addProf.setBounds(605, espacamento - 5, 300, 25);
+					addProf.setForeground(Color.white);
+					addProf.setFont(fonteNegrito);
+				}
 			}
 			
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			gradeInferior.setSize(1000,1000); 
-			JScrollPane scroll = new JScrollPane(gradeInferior);
-			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			this.add(scroll, BorderLayout.CENTER);
+			this.add(gradeInferior, BorderLayout.CENTER);
+			System.out.println("Era pra carregar os dados");
 			revalidate();
 			repaint();
 		}
@@ -170,7 +177,6 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
-			setVisible(true);
 			setResizable(false);
 			this.setLayout(new BorderLayout());
 			gradeInferior.setLayout(null);
@@ -190,18 +196,15 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			// TODO Auto-generated method stub
 			if (e.getSource() == btnBusc) {
 				getDadosPesquisa();
-				this.revalidate();
-				this.repaint();
 			}
 			if (e.getSource() == btnAtualizar) {
-				getDadosPesquisa();
-				this.revalidate();
-				this.repaint();
+				getDados();
 			}
 		}
 		
 		public static void main (String [] args) {
 			listView list = new listView();
+			list.setVisible(true);
 		}
 
 		@Override
