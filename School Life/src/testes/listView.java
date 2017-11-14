@@ -44,7 +44,7 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 	
 	private JPanel navbar = new JPanel();
 	private JPanel gradeInferior = new JPanel();
-	private JTextField txtPesq = new JTextField(30);
+	private JXTextField txtPesq = new JXTextField("Digite aqui o nome de um professor");
 	private JButton btnBusc = new JButton("Pesquisar"),
 			        btnAtualizar = new JButton("Recarregar");
 	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
@@ -139,7 +139,6 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 					codProf.setFont(fonte);
 					nomeProf.setFont(fonte);
 					
-					
 					btnEditar.addActionListener(e->{professor.EditaProfessor edita = new professor.EditaProfessor(nomeProf.getText());});
 					btnVer.addActionListener(e->{professor.VisualizaProfessor deletar = new professor.VisualizaProfessor(nomeProf.getText());});
 					btnExcluir.addActionListener(e->{professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());});
@@ -165,10 +164,10 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			gradeInferior.setPreferredSize(new Dimension(600, contaTamanho));
+			gradeInferior.setPreferredSize(new Dimension(610, contaTamanho));
 			scroll.setViewportView(gradeInferior);
 			add(scroll, BorderLayout.CENTER);
-			System.out.println("Era pra carregar os dados");
+			System.out.println("Dados Carregados!");
 			revalidate();
 			repaint();
 		}
@@ -187,16 +186,9 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 		public void estilizar() {
 			navbar.setBackground(new Color(47,79,79));
 			gradeInferior.setBackground(new Color(16, 28, 28));
-			GroupLayout gl_gradeInferior = new GroupLayout(gradeInferior);
-			gl_gradeInferior.setHorizontalGroup(
-				gl_gradeInferior.createParallelGroup(Alignment.LEADING)
-					.addGap(0, 794, Short.MAX_VALUE)
-			);
-			gl_gradeInferior.setVerticalGroup(
-				gl_gradeInferior.createParallelGroup(Alignment.LEADING)
-					.addGap(0, 531, Short.MAX_VALUE)
-			);
-			gradeInferior.setLayout(gl_gradeInferior);
+			gradeInferior.setLayout(null);
+			
+			txtPesq.setPreferredSize(new Dimension(300, 30));
 		}
 		
 		public listView() {
@@ -205,7 +197,7 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
 			setResizable(false);
-			getContentPane().setLayout(new BorderLayout());
+			this.setLayout(new BorderLayout());
 
 			getDados();
 			navBar();
