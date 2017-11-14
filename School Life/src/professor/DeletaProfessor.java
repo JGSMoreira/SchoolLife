@@ -130,6 +130,8 @@ public class DeletaProfessor extends JFrame implements ActionListener{
 		}
 		if (e.getSource() == sim) {
 			codigo(nomeProf);
+			testes.listView aa = new testes.listView();
+			aa.getDados();
 			dispose();
 		}
 		

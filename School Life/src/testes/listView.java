@@ -30,15 +30,27 @@ import org.w3c.dom.events.MouseEvent;
 import org.jdesktop.swingx.*;
 
 import professor.CadastroProfessor;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JScrollBar;
+import java.awt.Scrollbar;
 
 public class listView extends JFrame implements ActionListener, MouseListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel navbar = new JPanel();
-	private JXPanel gradeInferior = new JXPanel();
+	private JPanel gradeInferior = new JPanel();
 	private JTextField txtPesq = new JTextField(30);
 	private JButton btnBusc = new JButton("Pesquisar"),
 			        btnAtualizar = new JButton("Recarregar");
 	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
+	
+	private JScrollPane scroll = new JScrollPane();
+	private int contaTamanho = 0;
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 14);
 	private Font fonteNegrito = new Font ("Open Sans", Font.BOLD, 12);
@@ -57,7 +69,9 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 		}
 		
 		public void getDadosPesquisa() {
-			carregaDados("select * from professor where nome like '%" + txtPesq.getText() + "%';");
+			if (!txtPesq.getText().equals("")) {
+				carregaDados("select * from professor where nome like '%" + txtPesq.getText() + "%';");
+			}
 		}
 		public void carregaDados(String comando) {
 			try {
@@ -118,6 +132,7 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 						separador.setBounds(0, espacamento + 40, 1000, 1);
 						
 						espacamento = espacamento + 55;
+						contaTamanho = espacamento + 30;
 					}
 					separador.setForeground(new Color(47,79,79));
 					
@@ -150,7 +165,9 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			catch(Exception e) {
 				e.printStackTrace();
 			}
-			this.add(gradeInferior, BorderLayout.CENTER);
+			gradeInferior.setPreferredSize(new Dimension(600, contaTamanho));
+			scroll.setViewportView(gradeInferior);
+			add(scroll, BorderLayout.CENTER);
 			System.out.println("Era pra carregar os dados");
 			revalidate();
 			repaint();
@@ -158,18 +175,28 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 	//ELEMENTOS DA TABELA
 		public void navBar() {
 			txtPesq.setPreferredSize(new Dimension(20, 30));
-			btnBusc.setPreferredSize(new Dimension(110, 30));
 			btnAtualizar.setPreferredSize(new Dimension(110, 30));
 			navbar.add(btnAtualizar);
 			navbar.add(txtPesq);
-			navbar.add(btnBusc);
 			navbar.setBounds(0, 0, 100, 100);
-			this.add(navbar, BorderLayout.NORTH);
+			getContentPane().add(navbar, BorderLayout.NORTH);
+			btnBusc.setPreferredSize(new Dimension(110, 30));
+			navbar.add(btnBusc);
 		}
 		
 		public void estilizar() {
 			navbar.setBackground(new Color(47,79,79));
 			gradeInferior.setBackground(new Color(16, 28, 28));
+			GroupLayout gl_gradeInferior = new GroupLayout(gradeInferior);
+			gl_gradeInferior.setHorizontalGroup(
+				gl_gradeInferior.createParallelGroup(Alignment.LEADING)
+					.addGap(0, 794, Short.MAX_VALUE)
+			);
+			gl_gradeInferior.setVerticalGroup(
+				gl_gradeInferior.createParallelGroup(Alignment.LEADING)
+					.addGap(0, 531, Short.MAX_VALUE)
+			);
+			gradeInferior.setLayout(gl_gradeInferior);
 		}
 		
 		public listView() {
@@ -178,8 +205,7 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
 			setResizable(false);
-			this.setLayout(new BorderLayout());
-			gradeInferior.setLayout(null);
+			getContentPane().setLayout(new BorderLayout());
 
 			getDados();
 			navBar();
@@ -238,7 +264,4 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			// TODO Auto-generated method stub
 			
 		}
-
-
-
 }
