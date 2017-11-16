@@ -55,6 +55,7 @@ public class listView extends JFrame implements MouseListener{
 	
 	private JScrollPane scroll = new JScrollPane();
 	private int contaTamanho = 0;
+	private boolean atualizar = false;
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 14);
 	private Font fonteNegrito = new Font ("Open Sans", Font.BOLD, 12);
@@ -66,17 +67,23 @@ public class listView extends JFrame implements MouseListener{
 		private Connection conexao;
 		private Statement stm;
 		private ResultSet rs;
+	
+	//GET E SET
+		public void setAtualizar() {
+		}
 		
 	//BANCO DE DADOS
+		//BOTÃO ATUALIZAR
 		public void getDados() {
 			carregaDados("select * from professor;");
 		}
-		
+		//BOTÃO PESQUISAR
 		public void getDadosPesquisa() {
 			if (!txtPesq.getText().equals("")) {
 				carregaDados("select * from professor where nome like '%" + txtPesq.getText() + "%';");
 			}
 		}
+		//CARREGA DADOS
 		public void carregaDados(String comando) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
@@ -102,9 +109,7 @@ public class listView extends JFrame implements MouseListener{
 					
 					rs.getInt("idProfessor");
 					if (rs.wasNull()) {
-						JLabel lblNaoEncont = new JLabel("NENHUM DADO ENCONTRADO!");
-						gradeInferior.add(lblNaoEncont);
-						lblNaoEncont.setBounds(50, 50, 100, 100);
+						
 						revalidate();
 					}
 					else {
@@ -183,6 +188,7 @@ public class listView extends JFrame implements MouseListener{
 						public void mouseClicked(java.awt.event.MouseEvent e) {
 							if (e.getSource() == btnExcluir) {
 								professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());
+								getDados();
 							}
 						}
 						public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -201,9 +207,15 @@ public class listView extends JFrame implements MouseListener{
 				stm.close();
 				
 				if (primeiro == 0) {
+					JLabel lblNaoEncont = new JLabel("NENHUM DADO ENCONTRADO!");
+					gradeInferior.add(lblNaoEncont);
+					lblNaoEncont.setForeground(Color.white);
+					lblNaoEncont.setFont(fonteNegrito);
+					lblNaoEncont.setBounds(300, espacamento, 300, 100);
+					
 					addProf.setText("[CLIQUE AQUI PARA ADICIONAR PROFESSORES]");
 					gradeInferior.add(addProf);
-					addProf.setBounds(250, espacamento + 15, 300, 25);
+					addProf.setBounds(250, espacamento + 65, 300, 25);
 					addProf.setForeground(Color.white);
 					addProf.setFont(fonteNegrito);
 				}
@@ -239,8 +251,8 @@ public class listView extends JFrame implements MouseListener{
 		}
 		
 		public void estilizar() {
-			navbar.setBackground(new Color(47,79,79));
-			gradeInferior.setBackground(new Color(16, 28, 28));
+			navbar.setBackground(new Color(25, 25, 25));
+			gradeInferior.setBackground(new Color(12, 12, 12));
 			gradeInferior.setLayout(null);
 			
 			txtPesq.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
@@ -292,6 +304,9 @@ public class listView extends JFrame implements MouseListener{
 			if (e.getSource() == btnAtualizar) {
 				btnAtualizar.setIcon(new ImageIcon("img/tabela/btnRefreshhover.png"));;
 			}
+			if (e.getSource() == addProf) {
+				addProf.setForeground(Color.LIGHT_GRAY);
+			}
 		}
 
 		@Override
@@ -301,6 +316,9 @@ public class listView extends JFrame implements MouseListener{
 			}
 			if (e.getSource() == btnAtualizar) {
 				btnAtualizar.setIcon(new ImageIcon("img/tabela/btnRefresh.png"));;
+			}
+			if (e.getSource() == addProf) {
+				addProf.setForeground(Color.WHITE);
 			}
 		}
 
@@ -315,4 +333,5 @@ public class listView extends JFrame implements MouseListener{
 			// TODO Auto-generated method stub
 			
 		}
+
 }
