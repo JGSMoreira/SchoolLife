@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,12 +31,15 @@ import org.w3c.dom.events.MouseEvent;
 import org.jdesktop.swingx.*;
 
 import professor.CadastroProfessor;
+
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 import java.awt.Scrollbar;
 
-public class listView extends JFrame implements ActionListener, MouseListener{
+public class listView extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -45,8 +49,8 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 	private JPanel navbar = new JPanel();
 	private JPanel gradeInferior = new JPanel();
 	private JXTextField txtPesq = new JXTextField("Digite aqui o nome de um professor");
-	private JButton btnBusc = new JButton("Pesquisar"),
-			        btnAtualizar = new JButton("Recarregar");
+	private JLabel btnBusc = new JLabel(new ImageIcon("img/tabela/btnSearch.png")),
+			        btnAtualizar = new JLabel(new ImageIcon("img/tabela/btnRefresh.png"));
 	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
 	
 	private JScrollPane scroll = new JScrollPane();
@@ -89,9 +93,9 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 					JLabel nomeProf = new JLabel(),
 						   codProf = new JLabel();						   
 					JSeparator separador = new JSeparator();
-					JButton btnEditar = new JButton("Editar"),
-							btnExcluir = new JButton("Excluir"),
-							btnVer = new JButton("Ver");					
+					JLabel btnEditar = new JLabel(new ImageIcon("img/tabela/btnEditar.png")),
+						   btnExcluir = new JLabel(new ImageIcon("img/tabela/btnExcluir.png")),
+						   btnVer = new JLabel(new ImageIcon("img/tabela/btnVisualizar.png"));
 					
 					nomeProf.setText(rs.getString("nome"));
 					codProf.setText(rs.getString("idProfessor"));
@@ -139,9 +143,60 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 					codProf.setFont(fonte);
 					nomeProf.setFont(fonte);
 					
-					btnEditar.addActionListener(e->{professor.EditaProfessor edita = new professor.EditaProfessor(nomeProf.getText());});
-					btnVer.addActionListener(e->{professor.VisualizaProfessor deletar = new professor.VisualizaProfessor(nomeProf.getText());});
-					btnExcluir.addActionListener(e->{professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());});
+					btnEditar.addMouseListener(new MouseAdapter() {
+						public void mouseClicked(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnEditar) {
+								professor.EditaProfessor edita = new professor.EditaProfessor(nomeProf.getText());
+							}
+						}
+						public void mouseEntered(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnEditar) {
+								btnEditar.setIcon(new ImageIcon("img/tabela/btnEditarhover.png"));
+							}
+						}
+						public void mouseExited(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnEditar) {
+								btnEditar.setIcon(new ImageIcon("img/tabela/btnEditar.png"));
+							}
+						}
+						
+					});
+					btnVer.addMouseListener(new MouseAdapter() {
+						public void mouseClicked(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnVer) {
+								professor.VisualizaProfessor visualizar = new professor.VisualizaProfessor(nomeProf.getText());
+							}
+						}
+						public void mouseEntered(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnVer) {
+								btnVer.setIcon(new ImageIcon("img/tabela/btnVisualizarhover.png"));
+							}
+						}
+						public void mouseExited(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnVer) {
+								btnVer.setIcon(new ImageIcon("img/tabela/btnVisualizar.png"));
+							}
+						}
+						
+					});
+					btnExcluir.addMouseListener(new MouseAdapter() {
+						public void mouseClicked(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnExcluir) {
+								professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());
+							}
+						}
+						public void mouseEntered(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnExcluir) {
+								btnExcluir.setIcon(new ImageIcon("img/tabela/btnExcluirhover.png"));
+							}
+						}
+						public void mouseExited(java.awt.event.MouseEvent e) {
+							if (e.getSource() == btnExcluir) {
+								btnExcluir.setIcon(new ImageIcon("img/tabela/btnExcluir.png"));
+							}
+						}
+						
+					});
 				}
 				stm.close();
 				
@@ -174,12 +229,12 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 	//ELEMENTOS DA TABELA
 		public void navBar() {
 			txtPesq.setPreferredSize(new Dimension(20, 30));
-			btnAtualizar.setPreferredSize(new Dimension(110, 30));
+			btnAtualizar.setPreferredSize(new Dimension(80, 40));
 			navbar.add(btnAtualizar);
 			navbar.add(txtPesq);
 			navbar.setBounds(0, 0, 100, 100);
 			getContentPane().add(navbar, BorderLayout.NORTH);
-			btnBusc.setPreferredSize(new Dimension(110, 30));
+			btnBusc.setPreferredSize(new Dimension(80, 40));
 			navbar.add(btnBusc);
 		}
 		
@@ -188,7 +243,8 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			gradeInferior.setBackground(new Color(16, 28, 28));
 			gradeInferior.setLayout(null);
 			
-			txtPesq.setPreferredSize(new Dimension(300, 30));
+			txtPesq.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+			txtPesq.setPreferredSize(new Dimension(300, 33));
 		}
 		
 		public listView() {
@@ -205,19 +261,9 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			revalidate();
 			repaint();
 			
-			btnBusc.addActionListener(this);
-			btnAtualizar.addActionListener(this);
+			btnBusc.addMouseListener(this);
+			btnAtualizar.addMouseListener(this);
 			addProf.addMouseListener(this);
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			if (e.getSource() == btnBusc) {
-				getDadosPesquisa();
-			}
-			if (e.getSource() == btnAtualizar) {
-				getDados();
-			}
 		}
 		
 		public static void main (String [] args) {
@@ -230,19 +276,32 @@ public class listView extends JFrame implements ActionListener, MouseListener{
 			if (e.getSource() == addProf) {
 				CadastroProfessor cad = new CadastroProfessor();
 			}
-			
+			if (e.getSource() == btnBusc) {
+				getDadosPesquisa();
+			}
+			if (e.getSource() == btnAtualizar) {
+				getDados();
+			}
 		}
 
 		@Override
 		public void mouseEntered(java.awt.event.MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			if (e.getSource() == btnBusc) {
+				btnBusc.setIcon(new ImageIcon("img/tabela/btnSearchhover.png"));;
+			}
+			if (e.getSource() == btnAtualizar) {
+				btnAtualizar.setIcon(new ImageIcon("img/tabela/btnRefreshhover.png"));;
+			}
 		}
 
 		@Override
 		public void mouseExited(java.awt.event.MouseEvent e) {
-			// TODO Auto-generated method stub
-			
+			if (e.getSource() == btnBusc) {
+				btnBusc.setIcon(new ImageIcon("img/tabela/btnSearch.png"));;
+			}
+			if (e.getSource() == btnAtualizar) {
+				btnAtualizar.setIcon(new ImageIcon("img/tabela/btnRefresh.png"));;
+			}
 		}
 
 		@Override
