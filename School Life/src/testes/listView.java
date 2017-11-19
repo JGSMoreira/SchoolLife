@@ -2,6 +2,7 @@ package testes;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -48,9 +49,11 @@ public class listView extends JFrame implements MouseListener{
 	
 	private JPanel navbar = new JPanel();
 	private JPanel gradeInferior = new JPanel();
-	private JXTextField txtPesq = new JXTextField("Digite aqui o nome de um professor");
+	private JXTextField txtPesq = new JXTextField("Digite o nome de um professor");
 	private JLabel btnBusc = new JLabel(new ImageIcon("img/tabela/btnSearch.png")),
-			        btnAtualizar = new JLabel(new ImageIcon("img/tabela/btnRefresh.png"));
+				   btnAtualizar = new JLabel(new ImageIcon("img/tabela/btnRefresh.png")),
+				   logo = new JLabel(new ImageIcon("img/menu/logo.png"));
+	
 	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
 	
 	private JScrollPane scroll = new JScrollPane();
@@ -58,6 +61,12 @@ public class listView extends JFrame implements MouseListener{
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 14);
 	private Font fonteNegrito = new Font ("Open Sans", Font.BOLD, 12);
+	private Font fonteItalico = new Font ("Open Sans", Font.ITALIC, 12);
+	
+	private Color gradeInferiorCor = new Color(16,28,28);
+	private Color navBarCor = new Color(47,79,79);
+	private Color textoCor1 = new Color(255,255,255);
+	private Color separadorCor = new Color(149,165,166);
 	
 	//DADOS DE LOGIN - BD
 		private String url = "jdbc:mysql://localhost:3306/school_life?useSSL=false",
@@ -126,21 +135,21 @@ public class listView extends JFrame implements MouseListener{
 						gradeInferior.add(btnVer);
 						gradeInferior.add(btnExcluir);
 						
-						nomeProf.setForeground(Color.white);
-						codProf.setForeground(Color.white);
+						nomeProf.setForeground(textoCor1);
+						codProf.setForeground(textoCor1);
 						
-						btnEditar.setBounds(510, espacamento - 5, 75, 35);
-						btnVer.setBounds(595, espacamento - 5, 75, 35);
-						btnExcluir.setBounds(680, espacamento - 5, 75, 35);
+						btnEditar.setBounds(545, espacamento - 5, 75, 35);
+						btnVer.setBounds(615, espacamento - 5, 75, 35);
+						btnExcluir.setBounds(685, espacamento - 5, 75, 35);
 						
 						separador.setBounds(0, espacamento + 40, 1000, 1);
 						
 						espacamento = espacamento + 55;
 						contaTamanho = espacamento + 30;
 					}
-					separador.setForeground(new Color(47,79,79));
+					separador.setForeground(separadorCor);
 					
-					codProf.setFont(fonte);
+					codProf.setFont(fonteNegrito);
 					nomeProf.setFont(fonte);
 					
 					btnEditar.addMouseListener(new MouseAdapter() {
@@ -204,14 +213,14 @@ public class listView extends JFrame implements MouseListener{
 					addProf.setText("[CLIQUE AQUI PARA ADICIONAR PROFESSORES]");
 					gradeInferior.add(addProf);
 					addProf.setBounds(250, espacamento + 15, 300, 25);
-					addProf.setForeground(Color.white);
+					addProf.setForeground(textoCor1);
 					addProf.setFont(fonteNegrito);
 				}
 				else {
 					addProf.setText("+ ADICIONAR PROFESSOR");
 					gradeInferior.add(addProf);
 					addProf.setBounds(605, espacamento - 5, 300, 25);
-					addProf.setForeground(Color.white);
+					addProf.setForeground(textoCor1);
 					addProf.setFont(fonteNegrito);
 				}
 			}
@@ -228,23 +237,37 @@ public class listView extends JFrame implements MouseListener{
 		}
 	//ELEMENTOS DA TABELA
 		public void navBar() {
-			txtPesq.setPreferredSize(new Dimension(20, 30));
+			FlowLayout flow = new FlowLayout();
+			flow.setHgap(-8);
+			navbar.setLayout(flow);
+			navbar.add(logo);
+			txtPesq.setPreferredSize(new Dimension(22, 30));
 			btnAtualizar.setPreferredSize(new Dimension(80, 40));
-			navbar.add(btnAtualizar);
 			navbar.add(txtPesq);
+			
 			navbar.setBounds(0, 0, 100, 100);
-			getContentPane().add(navbar, BorderLayout.NORTH);
+			this.add(navbar, BorderLayout.NORTH);
 			btnBusc.setPreferredSize(new Dimension(80, 40));
+			
 			navbar.add(btnBusc);
+			navbar.add(btnAtualizar);
 		}
 		
 		public void estilizar() {
-			navbar.setBackground(new Color(47,79,79));
-			gradeInferior.setBackground(new Color(16, 28, 28));
+			navbar.setBackground(navBarCor);
+			gradeInferior.setBackground(gradeInferiorCor);
 			gradeInferior.setLayout(null);
 			
-			txtPesq.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
+			txtPesq.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, new Color(41,171,226)));
 			txtPesq.setPreferredSize(new Dimension(300, 33));
+			txtPesq.setFont(fonte);
+			
+			btnBusc.setPreferredSize(new Dimension(80, 33));
+			
+			gradeInferior.setBorder(null);
+			navbar.setBorder(null);
+			scroll.setBorder(null);
+			
 		}
 		
 		public listView() {
@@ -292,6 +315,9 @@ public class listView extends JFrame implements MouseListener{
 			if (e.getSource() == btnAtualizar) {
 				btnAtualizar.setIcon(new ImageIcon("img/tabela/btnRefreshhover.png"));;
 			}
+			if (e.getSource() == addProf) {
+				addProf.setForeground(Color.LIGHT_GRAY);
+			}
 		}
 
 		@Override
@@ -301,6 +327,9 @@ public class listView extends JFrame implements MouseListener{
 			}
 			if (e.getSource() == btnAtualizar) {
 				btnAtualizar.setIcon(new ImageIcon("img/tabela/btnRefresh.png"));;
+			}
+			if (e.getSource() == addProf) {
+				addProf.setForeground(textoCor1);
 			}
 		}
 
