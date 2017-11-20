@@ -131,7 +131,13 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		lblLogo.setForeground(Color.white);
 		paEsquerdo.setBackground(new Color(47,79,79));
 		paCentro.setBackground(new Color(16, 28, 28));
-	}
+		
+		mnbMenu.setBackground(new Color(47,79,79));
+		mnAdicionar.setForeground(Color.white);
+		mnVisualizar.setForeground(Color.white);	
+		mnbMenu.setBorder(null);
+		mnbMenu.setFont(new Font("Open Sans", 12, Font.PLAIN));
+		}
 	
 	public void adicionaListeners() {
 		
