@@ -115,6 +115,9 @@ public class DeletaProfessor extends JFrame implements ActionListener{
 		revalidate();
 		repaint();
 		
+		testes.listView aa = new testes.listView();
+		aa.setAtualizar();
+		
 		sim.addActionListener(this);
 		nao.addActionListener(this);
 		

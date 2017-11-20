@@ -157,8 +157,8 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		stm=conexao.createStatement();
 		
 		stm.executeUpdate("insert into professor (nome, email) values" + "('"+txtNome.getText()+"', '"+txtEmail.getText()+"');");
-	
-		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
+		
+		basico.JanelaPergunta a = new basico.JanelaPergunta("Dados gravados com sucesso!");
 		stm.close();		
 		}
 		

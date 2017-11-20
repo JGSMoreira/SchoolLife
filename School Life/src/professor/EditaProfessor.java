@@ -154,7 +154,7 @@ private static final long serialVersionUID = -4248697972014390077L;
 		stm.executeUpdate("update professor set nome = '" + txtNome.getText() + "' where idProfessor = " + codigo + ";");
 		stm.executeUpdate("update professor set email = '" + txtEmail.getText() + "' where idProfessor = " + codigo + ";");
 		
-		JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
+		basico.JanelaPergunta a = new basico.JanelaPergunta("Dados gravados com sucesso!");
 		stm.close();		
 		}
 		

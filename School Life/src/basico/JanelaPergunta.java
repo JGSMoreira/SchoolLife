@@ -2,8 +2,12 @@ package basico;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -12,10 +16,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import javafx.scene.layout.Border;
 
 public class JanelaPergunta extends JFrame implements ActionListener{
 	
@@ -24,13 +32,12 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 	 */
 	private static final long serialVersionUID = -626545031181805303L;
 
-	private JPanel parteSuperior = new JPanel(null),
+	private JPanel parteSuperior = new JPanel(),
 				   parteInferior = new JPanel();
 	
-	private JLabel texto = new JLabel();
+	private JLabel areaTexto = new JLabel();
 	
-	private JButton sim = new JButton("Sim"),
-					nao = new JButton("Não");
+	private JButton ok = new JButton("OK");
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 16);
 	
@@ -39,40 +46,38 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 		this.add(parteInferior, BorderLayout.SOUTH);
 		this.add(parteSuperior, BorderLayout.CENTER);
 		
-		parteSuperior.add(texto);
+		parteSuperior.setLayout(new GridBagLayout());
+		parteSuperior.add(areaTexto);
 		
-		parteInferior.add(sim);
-		parteInferior.add(nao);
+		parteInferior.add(ok);
 		
 		organizaElementos();
 	}
 	public void organizaElementos() {
-		texto.setBounds(10, 35, 400, 35);
-		
+		areaTexto.setBounds(10, 35, 400, 35);		
 		estilizaElementos();
 	}
 	public void estilizaElementos() {
 		parteSuperior.setBackground(new Color(16, 28, 28));
 		parteInferior.setBackground(new Color(28, 49, 49));
 		
-		texto.setFont(fonte);
-		texto.setForeground(Color.WHITE);
+		areaTexto.setFont(fonte);
+		areaTexto.setForeground(Color.WHITE);
 	}
 	
 	//CONSTRUTOR
 	public JanelaPergunta(String texto) {
-		setTitle("Janela de Confirmação");
+		setTitle("Janela de confirmação");
 		adicionaElementos();
 		pack();
 		setBounds(0, 0, 390, 180);
 		this.setLocationRelativeTo(null);
-		this.texto.setText(texto);
+		this.areaTexto.setText(texto);
 		setVisible(true);
 		revalidate();
 		repaint();
 		
-		sim.addActionListener(this);
-		nao.addActionListener(this);
+		ok.addActionListener(this);
 		
 	}
 	
@@ -81,11 +86,8 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == nao) {
+		if (e.getSource() == ok) {
 			dispose();
-		}
-		if (e.getSource() == sim) {
-
 		}
 		
 	}
