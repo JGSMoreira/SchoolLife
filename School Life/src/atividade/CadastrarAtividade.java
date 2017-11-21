@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
@@ -23,13 +25,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import materia.CadastrarMateria;
 
-public class CadastrarAtividade extends JFrame implements MouseListener{
+public class CadastrarAtividade extends JFrame implements MouseListener, ItemListener{
 	
 	/**
 	 * 
@@ -42,22 +45,22 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 				   lblEtapa = new JLabel("Etapa"),
 				   lblMateria = new JLabel("Matéria"),
 				   lblPrioridade = new JLabel("Prioridade"),
-				   lblProf = new JLabel("Professor"),
 				   lblExemploEt = new JLabel("(Ex. 1, 2, 3, 4, etc.)"),
 				   lblDataEntrega = new JLabel("Data de entrega"),
 				   lblDe = new JLabel("de"),
 				   lblDe2 = new JLabel("de"),
-				   lblContinuaPontos = new JLabel("Pontos");
+				   lblContinuaPontos = new JLabel("Pontos"),
+				   lblTipoAtividade = new JLabel("Tipo de atividade");
 	
 	private JTextField txtNome = new JTextField(15),
 					   txtValor = new JTextField(15),
 					   txtEtapa = new JTextField(15),
-					   txtProf = new JTextField(15),
 					   txtCod = new JTextField(15);
 	
 	private JComboBox cbDia = new JComboBox(),
 					  cbMes = new JComboBox(),
-					  cbAno = new JComboBox();
+					  cbAno = new JComboBox(),
+					  cbTipoAtividade = new JComboBox();
 	
 	private JPanel paInf = new JPanel(),
 				   paCentral = new JPanel();
@@ -83,8 +86,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		paCentral.add(txtNome);
 		paCentral.add(lblMateria);
 		paCentral.add(cbMateria);
-		paCentral.add(lblProf);
-		paCentral.add(txtProf);
 		paCentral.add(lblPrioridade);
 		paCentral.add(cbPrioridade);
 		paCentral.add(lblValor);
@@ -97,108 +98,8 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		paCentral.add(lblDataEntrega);
 		paCentral.add(lblDe);
 		paCentral.add(lblDe2);
-		
-	}
-	
-	public void verifica_data() {
-		
-		if (cbMes.getSelectedItem() == "Janeiro") {
-			for (int i=1; i<32; i++) {
-				cbDia.addItem(i);
-				revalidate();
-				repaint();
-				}
-			}
-		
-			else if (cbMes.getSelectedItem() == "Fevereiro") {
-				for (int i=1; i<30; i++) {
-					cbDia.addItem(i);	
-					revalidate();
-					repaint();
-				}
-			}
-				else if(cbMes.getSelectedItem() == "Março") {
-					for (int i=1; i<31; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-			
-				else if(cbMes.getSelectedItem() == "Abril") {
-					for (int i=1; i<32; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Maio") {
-					for (int i=1; i<31; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Junho") {
-					for (int i=1; i<32; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Julho") {
-					for (int i=1; i<31; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Agosto") {
-					for (int i=1; i<32; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Setembro") {
-					for (int i=1; i<31; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Outubro") {
-					for (int i=1; i<32; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Novembro") {
-					for (int i=1; i<31; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-		
-				else if(cbMes.getSelectedItem() == "Dezembro") {
-					for (int i=1; i<32; i++) {
-						cbDia.addItem(i);
-						revalidate();
-						repaint();
-						}
-				}
-			
-			revalidate();
-			repaint();
+		paCentral.add(lblTipoAtividade);
+		paCentral.add(cbTipoAtividade);
 		
 	}
 	
@@ -212,22 +113,19 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		txtNome.setBounds(180, 50, 185, 30);
 		lblMateria.setBounds(15, 85, 80, 30);
 		cbMateria.setBounds(125, 85, 240, 30);
-		lblProf.setBounds(15, 120, 80, 30);
-		txtProf.setBounds(125, 120, 240, 30);
-		lblValor.setBounds(15, 155, 80, 30);
-		txtValor.setBounds(125, 155, 50, 30);
-		lblContinuaPontos.setBounds(180, 155, 125, 30);
-		lblPrioridade.setBounds(15, 190, 80, 30);
-		cbPrioridade.setBounds(125, 190, 240, 30);
-		lblDataEntrega.setBounds(15, 140, 200, 200);
-		cbDia.setBounds(125, 225, 40, 30);
-		cbMes.setBounds(190, 225, 90, 30);
-		cbAno.setBounds(305, 225, 60, 30);
-		lblDe.setBounds(170, 225, 40, 30);
-		lblDe2.setBounds(285, 225, 40, 30);
-
-
-
+		lblValor.setBounds(15, 120, 80, 30);
+		txtValor.setBounds(125, 120, 50, 30);
+		lblContinuaPontos.setBounds(180, 120, 125, 30);
+		lblPrioridade.setBounds(15, 155, 80, 30);
+		cbPrioridade.setBounds(125, 155, 240, 30);
+		lblDataEntrega.setBounds(15, 190, 120, 30);
+		cbDia.setBounds(125, 190, 40, 30);
+		cbMes.setBounds(190, 190, 90, 30);
+		cbAno.setBounds(305, 190, 60, 30);
+		lblDe.setBounds(170, 190, 40, 30);
+		lblDe2.setBounds(285, 190, 40, 30);
+		lblTipoAtividade.setBounds(15, 225, 120, 30);
+		cbTipoAtividade.setBounds(125, 225, 240, 30);
 		
 	}
 	
@@ -236,7 +134,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		paCentral.setLayout(null);
 		paInf.setBackground(new Color(28, 49, 49));
 		txtCod.setEditable(false);
-		txtProf.setEditable(false);
 		Font fonteOpenSans1 = new Font("Open Sans", Font.PLAIN, 12);
 		txtCod.setHorizontalAlignment(JTextField.CENTER);
 		
@@ -247,16 +144,15 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		lblNome.setFont(fonteOpenSans1);
 		lblPrioridade.setFont(fonteOpenSans1);
 		lblDataEntrega.setFont(fonteOpenSans1);
-		lblProf.setFont(fonteOpenSans1);
 		lblValor.setFont(fonteOpenSans1);
 		cbDia.setFont(fonteOpenSans1);
 		cbMes.setFont(fonteOpenSans1);
 		cbAno.setFont(fonteOpenSans1);
 		lblDe.setFont(fonteOpenSans1);
 		lblDe2.setFont(fonteOpenSans1);
+		lblTipoAtividade.setFont(fonteOpenSans1);
 		
 		lblNome.setForeground(Color.WHITE);
-		lblProf.setForeground(Color.WHITE);
 		lblContinuaPontos.setForeground(Color.WHITE);
 		lblEtapa.setForeground(Color.WHITE);
 		lblExemploEt.setForeground(Color.WHITE);
@@ -266,10 +162,10 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		lblDataEntrega.setForeground(Color.WHITE);
 		lblDe.setForeground(Color.WHITE);
 		lblDe2.setForeground(Color.white);
+		lblTipoAtividade.setForeground(Color.WHITE);
 		
 		txtEtapa.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
-		txtProf.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		txtValor.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
 		
 	}
@@ -340,16 +236,14 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
-			rs = stm.executeQuery("select nome from tipo_atividade");
-			Vector linhas = new Vector();			
+			rs = stm.executeQuery("select nome from tipo_atividade");		
 			
 			while(rs.next()) {
-				cbMateria.addItem(rs.getString("nome"));
+				cbTipoAtividade.addItem(rs.getString("nome"));
 			}
 			
 			stm.close(); 
 			revalidate();
-			
 
 		}
 		
@@ -359,14 +253,109 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 	}
 	
 	public void enviaDados() {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+			
+			int dia = (int) cbDia.getSelectedItem();
+			int mes = Integer.parseInt(converteMesNumero());
+			int ano = (int) cbAno.getSelectedItem();
+			String data = ano+"-"+mes+"-"+dia;
+			
+			stm.executeUpdate("insert into atividade (nome, etapa, pontuacao, prioridade, data_entrega, idTipo_AtividadeFK, idProfessorFK, idMateriaFK) values" + ""
+					+ "('"+txtNome.getText()+"', " +txtEtapa.getText()+"',"+txtValor+"',"+cbPrioridade.getSelectedItem()+"',"+data+"',"+getIdProfessor()+");");
 		
+			JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
+			stm.close();
+			dispose();
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public int getIdProfessor() {
+		int idProf = 0;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+			String selecionado = String.valueOf(this.cbMateria.getSelectedItem());
+			this.rs = stm.executeQuery("select idProfessorFK from professor where nome like " + "'" + selecionado + "';");
+			rs.next();
+			
+			idProf = rs.getInt("idProfessorFK");
+			stm.close();
+			dispose();
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return(idProf);
+	}
+	public int getIdMateria() {
+		int idMate = 0;
+		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+			String selecionado = String.valueOf(this.cbMateria.getSelectedItem());
+			this.rs = stm.executeQuery("select idMateriaFK from professor where nome like " + "'" + selecionado + "';");
+			rs.next();
+			
+			idMate = rs.getInt("idMateriaFK");
+			stm.close();
+			dispose();
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return(idMate);
+	}
+	
+	public String converteMesNumero() {
+		if (cbMes.getSelectedItem() == "Janeiro")
+			return("01");
+		else if (cbMes.getSelectedItem() == "Fevereiro")
+			return("02");
+		else if (cbMes.getSelectedItem() == "Março")
+			return("03");
+		else if (cbMes.getSelectedItem() == "Abril")
+			return("04");
+		else if (cbMes.getSelectedItem() == "Maio")
+			return("05");
+		else if (cbMes.getSelectedItem() == "Junho")
+			return("06");
+		else if (cbMes.getSelectedItem() == "Julho")
+			return("07");
+		else if (cbMes.getSelectedItem() == "Agosto")
+			return("08");
+		else if (cbMes.getSelectedItem() == "Setembro")
+			return("09");
+		else if (cbMes.getSelectedItem() == "Outubro")
+			return("10");
+		else if (cbMes.getSelectedItem() == "Novembro")
+			return("11");
+		else if (cbMes.getSelectedItem() == "Dezembro")
+			return("12");
+		else
+			return("makonha");
 	}
 	
 	//CONSTRUTOR
 	public CadastrarAtividade() {
 		
 		this.setTitle("School Life - Cadastrar Atividade");
-		this.setBounds(0, 0, 400, 400);
+		this.setBounds(0, 0, 400, 350);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -375,6 +364,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		cbPrioridade.addItem("Média");
 		cbPrioridade.addItem("Alta");
 		
+		cbMes.addItem("---");
 		cbMes.addItem("Janeiro");
 		cbMes.addItem("Fevereiro");
 		cbMes.addItem("Março");
@@ -396,10 +386,10 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		codigo();
 		carregaMaterias();
 		carregaTipoAtv();
-		verifica_data();
 		
 		btnCancelar.addMouseListener(this);
 		btnSalvar.addMouseListener(this);
+		cbMes.addItemListener(this);
 		
 		repaint();
 		this.setVisible(true);
@@ -451,6 +441,48 @@ public class CadastrarAtividade extends JFrame implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		cbDia.removeAllItems();
+		//MESES COM 31 DIAS
+		if ((cbMes.getSelectedItem() == "Janeiro") || 
+			(cbMes.getSelectedItem() == "Abril") || 
+			(cbMes.getSelectedItem() == "Junho") ||
+			(cbMes.getSelectedItem() == "Agosto") ||
+			(cbMes.getSelectedItem() == "Outubro") ||
+			(cbMes.getSelectedItem() == "Dezembro")
+			) {
+					for (int i=1; i<32; i++) {
+						cbDia.addItem(i);
+						revalidate();
+						repaint();
+					}
+				}
+		//APENAS FEVEREIRO
+		else if (cbMes.getSelectedItem() == "Fevereiro") {
+			for (int i=1; i<30; i++) {
+				cbDia.addItem(i);	
+				revalidate();
+				repaint();
+			}
+		}
+		//MESES COM 30 DIAS
+		else if((cbMes.getSelectedItem() == "Março") ||
+				(cbMes.getSelectedItem() == "Maio") ||
+				(cbMes.getSelectedItem() == "Julho") ||
+				(cbMes.getSelectedItem() == "Setembro") ||
+				(cbMes.getSelectedItem() == "Novembro") 
+				){
+			for (int i=1; i<31; i++) {
+				cbDia.addItem(i);
+				revalidate();
+				repaint();
+			}
+		}
+		revalidate();
+		repaint();
+		}
 }
 
 
