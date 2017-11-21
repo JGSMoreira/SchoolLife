@@ -263,26 +263,28 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	}
 	
 	public void enviaDados() {
+		
+		int dia = (int) cbDia.getSelectedItem();
+		int mes = Integer.parseInt(converteMesNumero());
+		int ano = (int) cbAno.getSelectedItem();
+		String data = ano+"-"+mes+"-"+dia;
+		
+		String nome = txtNome.getText();
+		String etapa = txtEtapa.getText();
+		String pontuacao = txtValor.getText();
+		String prioridade = (String) cbPrioridade.getSelectedItem();
+		String situacao = (String) cbEstadoAtividade.getSelectedItem();
+		int idTipoAtv = getIdTipoAtv();
+		int idProf = getIdProfessor();
+		int idMateria = getIdMateria();
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			
-			int dia = (int) cbDia.getSelectedItem();
-			int mes = Integer.parseInt(converteMesNumero());
-			int ano = (int) cbAno.getSelectedItem();
-			String data = ano+"-"+mes+"-"+dia;
-			
-			String nome = txtNome.getText();
-			String etapa = txtEtapa.getText();
-			String pontuacao = txtValor.getText();
-			String prioridade = (String) cbPrioridade.getSelectedItem();
-			int idTipoAtv = getIdTipoAtv();
-			int idProf = getIdProfessor();
-			int idMateria = getIdMateria();
-			
-			stm.executeUpdate("insert into atividade (nome, etapa, pontuacao, prioridade, data_entrega, idTipo_AtividadeFK, idProfessorFK, idMateriaFK) values" + ""
-					+ "('"+nome+"', " +etapa+"',"+pontuacao+"',"+prioridade+"',"+data+"',"+idTipoAtv+"',"+idProf+"',"+idMateria+");");
+			stm.executeUpdate("insert into atividade (nome, etapa, pontuacao, prioridade, data_entrega, situacao, idTipo_AtividadeFK, idProfessorFK, idMateriaFK) values"
+					+ "('"+nome+"', "+etapa+","+pontuacao+",'"+prioridade+"','"+data+"','"+situacao+"',"+idTipoAtv+","+idProf+","+idMateria+");");
 		
 			JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
 			stm.close();
@@ -297,24 +299,23 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	
 	public int getIdProfessor() {
 		int idProf = 0;
-		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			String selecionado = String.valueOf(this.cbMateria.getSelectedItem());
-			this.rs = stm.executeQuery("select idProfessorFK from professor where nome like " + "'" + selecionado + "';");
-			rs.next();
-			
-			idProf = rs.getInt("idProfessorFK");
+			this.rs = stm.executeQuery("select idProfessor from professor where nome like " + "'" + selecionado + "';");
+			while(rs.next()) {
+				idProf = rs.getInt("idProfessor");
+			}
 			stm.close();
-			dispose();
 		}
 		
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+		System.out.println(idProf);
 		return(idProf);
 	}
 	public int getIdMateria() {
@@ -325,12 +326,11 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			String selecionado = String.valueOf(this.cbMateria.getSelectedItem());
-			this.rs = stm.executeQuery("select idMateriaFK from professor where nome like " + "'" + selecionado + "';");
-			rs.next();
-			
-			idMate = rs.getInt("idMateriaFK");
+			this.rs = stm.executeQuery("select idMateria from materia where nome like " + "'" + selecionado + "';");
+			while(rs.next()) {
+				idMate = rs.getInt("idMateria");
+			}
 			stm.close();
-			dispose();
 		}
 		
 		catch(Exception e) {
@@ -347,12 +347,11 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			String selecionado = String.valueOf(this.cbTipoAtividade.getSelectedItem());
-			this.rs = stm.executeQuery("select idTipoAtividade from tipo_atividade where nome like " + "'" + selecionado + "';");
-			rs.next();
-			
-			idMate = rs.getInt("idTipoAtividade");
+			this.rs = stm.executeQuery("select idTipo_Atividade from tipo_atividade where nome like " + "'" + selecionado + "';");
+			while(rs.next()) {
+				idMate = rs.getInt("idTipo_Atividade");
+			}
 			stm.close();
-			dispose();
 		}
 		
 		catch(Exception e) {
@@ -420,7 +419,9 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		
 		cbAno.addItem(2017);
 		
-		
+		cbEstadoAtividade.addItem("Feito");
+		cbEstadoAtividade.addItem("A fazer");
+		cbEstadoAtividade.addItem("Atrasado");
 		
 		adicionador();
 		posicionador();
@@ -450,7 +451,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			}
 		}
 	}
-
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		if(e.getSource() == btnSalvar) {
