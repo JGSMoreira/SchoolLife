@@ -1,4 +1,4 @@
-package testes;
+package professor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -40,7 +40,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 import java.awt.Scrollbar;
 
-public class listView extends JFrame implements MouseListener{
+public class ListarProfessores extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -289,8 +289,8 @@ public class listView extends JFrame implements MouseListener{
 			
 		}
 		
-		public listView() {
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		public ListarProfessores() {
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
@@ -307,11 +307,7 @@ public class listView extends JFrame implements MouseListener{
 			btnBusc.addMouseListener(this);
 			btnAtualizar.addMouseListener(this);
 			addProf.addMouseListener(this);
-		}
-		
-		public static void main (String [] args) {
-			listView list = new listView();
-			list.setVisible(true);
+			this.setVisible(true);
 		}
 
 		@Override
