@@ -145,7 +145,7 @@ public class CadastrarTipoAtividade extends JFrame implements ActionListener, Mo
 		
 		stm.executeUpdate("insert into tipo_atividade (nome) values" + "('"+txtNome.getText()+"');");
 		
-		basico.JanelaPergunta a = new basico.JanelaPergunta("Dados gravados com sucesso!");
+		basico.JanelaPergunta a = new basico.JanelaPergunta("Tipo de Atividade cadastrado com sucesso!");
 		stm.close();		
 		}
 		
@@ -204,10 +204,6 @@ public class CadastrarTipoAtividade extends JFrame implements ActionListener, Mo
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public static void main (String [] args) {
-		CadastrarTipoAtividade a = new CadastrarTipoAtividade();
 	}
 	
 }

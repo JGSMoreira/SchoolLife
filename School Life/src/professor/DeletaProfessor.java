@@ -122,10 +122,6 @@ public class DeletaProfessor extends JFrame implements ActionListener{
 		nao.addActionListener(this);
 		
 	}
-	
-	public static void main (String [] args) {
-		DeletaProfessor del = new DeletaProfessor(null);
-	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == nao) {
@@ -135,6 +131,7 @@ public class DeletaProfessor extends JFrame implements ActionListener{
 			codigo(nomeProf);
 			testes.listView aa = new testes.listView();
 			aa.getDados();
+			basico.JanelaPergunta a = new basico.JanelaPergunta("Professor deletado com sucesso!");
 			dispose();
 		}
 		

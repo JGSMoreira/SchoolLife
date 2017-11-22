@@ -158,7 +158,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		
 		stm.executeUpdate("insert into professor (nome, email) values" + "('"+txtNome.getText()+"', '"+txtEmail.getText()+"');");
 		
-		basico.JanelaPergunta a = new basico.JanelaPergunta("Dados gravados com sucesso!");
+		basico.JanelaPergunta a = new basico.JanelaPergunta("Professor cadastrado com sucesso!");
 		stm.close();		
 		}
 		
@@ -176,11 +176,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 		if (e.getSource() == btnSalvar) {
 			if (! txtNome.getText().equals("")) {
 				salvarProfessor();
-				txtNome.setText("");
-				txtEmail.setText("");
-				txtNome.requestFocus();
-				codigo();
-				revalidate();
+				dispose();
 			}
 		}
 	}

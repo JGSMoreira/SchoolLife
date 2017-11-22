@@ -51,7 +51,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 				   lblDe2 = new JLabel("de"),
 				   lblContinuaPontos = new JLabel("Pontos"),
 				   lblTipoAtividade = new JLabel("Tipo de atividade"),
-				   lblEstadodaAtividade = new JLabel("Estado da atividade");
+				   lblEstadodaAtividade = new JLabel("Status");
 	
 	private JTextField txtNome = new JTextField(15),
 					   txtValor = new JTextField(15),
@@ -162,6 +162,8 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		cbTipoAtividade.setFont(fonteOpenSans1);
 		lblEstadodaAtividade.setFont(fonteOpenSans1);
 		cbEstadoAtividade.setFont(fonteOpenSans1);
+		cbMateria.setFont(fonteOpenSans1);
+		cbPrioridade.setFont(fonteOpenSans1);
 		
 		lblNome.setForeground(Color.WHITE);
 		lblContinuaPontos.setForeground(Color.WHITE);
@@ -225,8 +227,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
-			rs = stm.executeQuery("select nome from materia");
-			Vector linhas = new Vector();			
+			rs = stm.executeQuery("select nome from materia");			
 			
 			while(rs.next()) {
 				cbMateria.addItem(rs.getString("nome"));
@@ -234,8 +235,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			
 			stm.close(); 
 			revalidate();
-			
-
 		}
 		
 		catch (Exception e) {
@@ -294,7 +293,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			stm.executeUpdate("insert into atividade (nome, etapa, pontuacao, prioridade, data_entrega, situacao, idTipo_AtividadeFK, idProfessorFK, idMateriaFK) values"
 					+ "('"+nome+"', "+etapa+","+pontuacao+",'"+prioridade+"','"+data+"','"+situacao+"',"+idTipoAtv+","+idProf+","+idMateria+");");
 		
-			basico.JanelaPergunta pe = new basico.JanelaPergunta("Dados gravados com sucesso!");
 			stm.close();
 			dispose();
 		}
@@ -400,14 +398,15 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	public CadastrarAtividade() {
 		
 		this.setTitle("School Life - Cadastrar Atividade");
-		this.setBounds(0, 0, 400, 400);
+		this.setBounds(0, 0, 400, 390);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		
-		cbPrioridade.addItem("Baixa");
-		cbPrioridade.addItem("Média");
-		cbPrioridade.addItem("Alta");
+		cbPrioridade.addItem("BAIXA");
+		cbPrioridade.addItem("MÉDIA");
+		cbPrioridade.addItem("ALTA");
+		cbPrioridade.addItem("EXTREMA");
 		
 		cbMes.addItem("---");
 		cbMes.addItem("Janeiro");
@@ -423,11 +422,17 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		cbMes.addItem("Novembro");
 		cbMes.addItem("Dezembro");		
 		
-		cbAno.addItem(2017);
+		cbDia.addItem("---");
 		
-		cbEstadoAtividade.addItem("Feito");
-		cbEstadoAtividade.addItem("A fazer");
-		cbEstadoAtividade.addItem("Atrasado");
+		int ano = 2017;
+		do {
+			cbAno.addItem(ano);
+			ano = ano + 1;
+		}while(ano <= 2022);
+		
+		cbEstadoAtividade.addItem("FEITA");
+		cbEstadoAtividade.addItem("A FAZER");
+		cbEstadoAtividade.addItem("ATRASADA");
 		
 		adicionador();
 		posicionador();
@@ -453,6 +458,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		if (e.getSource() == btnSalvar) {
 			if (! txtNome.getText().equals("")) {
 				enviaDados();
+				basico.JanelaPergunta a = new basico.JanelaPergunta("Atividade cadastrada com sucesso!");
 				dispose();
 			}
 		}
@@ -493,6 +499,11 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
 		cbDia.removeAllItems();
+		//QUANDO NADA SELECIONADO
+		if (cbMes.getSelectedItem() == "---") {
+			cbDia.addItem("---");
+		}
+		
 		//MESES COM 31 DIAS
 		if ((cbMes.getSelectedItem() == "Janeiro") || 
 			(cbMes.getSelectedItem() == "Abril") || 
