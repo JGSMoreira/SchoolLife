@@ -92,10 +92,6 @@ public class ExibeTipoAtividade extends JFrame implements ActionListener, MouseL
 
 	}
 	
-	public static void main(String[] args) {
-		ExibeTipoAtividade ep = new ExibeTipoAtividade();
-	}
-	
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnCancelar) {

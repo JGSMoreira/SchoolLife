@@ -85,6 +85,9 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		if(e.getSource() == miVerProf) {
 			professor.ExibeProfessor vp = new  professor.ExibeProfessor();
 		}
+		if(e.getSource() == miAddTipoAtividade) {
+			tipo_atividade.CadastrarTipoAtividade ta = new  tipo_atividade.CadastrarTipoAtividade();
+		}
 	}
 	
 	//ISTO ADICIONA OS ELEMENTOS NA TELA
@@ -173,6 +176,7 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		if (e.getSource() == btnAddAtv) {
 			atividade.CadastrarAtividade ca = new atividade.CadastrarAtividade();
 		}
+		
 	}
 
 	public void mouseEntered(MouseEvent e) {

@@ -73,6 +73,8 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	private JComboBox cbMateria = new JComboBox(),
 					  cbPrioridade = new JComboBox();
 	
+	private String nomeDebug = "[CAD ATV]";
+	
 	//ORGANIZADORES DA INTERFACE
 	public void adicionador() {
 		this.add(paInf, BorderLayout.SOUTH);
@@ -278,6 +280,12 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		int idProf = getIdProfessor();
 		int idMateria = getIdMateria();
 		
+		System.out.println(nomeDebug +"Prioridade: "+ prioridade);
+		System.out.println(nomeDebug +"Situação: "+ situacao);
+		System.out.println(nomeDebug +"ID Tipo Atv: "+ idTipoAtv);
+		System.out.println(nomeDebug +"ID Prof: "+ idProf);
+		System.out.println(nomeDebug +"ID Matéria: "+ idMateria);
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conexao = DriverManager.getConnection(url, usuario, senha);
@@ -286,7 +294,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			stm.executeUpdate("insert into atividade (nome, etapa, pontuacao, prioridade, data_entrega, situacao, idTipo_AtividadeFK, idProfessorFK, idMateriaFK) values"
 					+ "('"+nome+"', "+etapa+","+pontuacao+",'"+prioridade+"','"+data+"','"+situacao+"',"+idTipoAtv+","+idProf+","+idMateria+");");
 		
-			JOptionPane.showMessageDialog(null, "Dados gravados com sucesso!");
+			basico.JanelaPergunta pe = new basico.JanelaPergunta("Dados gravados com sucesso!");
 			stm.close();
 			dispose();
 		}
@@ -304,9 +312,9 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			String selecionado = String.valueOf(this.cbMateria.getSelectedItem());
-			this.rs = stm.executeQuery("select idProfessor from professor where nome like " + "'" + selecionado + "';");
+			this.rs = stm.executeQuery("select idProfessorFK from materia where nome like " + "'" + selecionado + "';");
 			while(rs.next()) {
-				idProf = rs.getInt("idProfessor");
+				idProf = rs.getInt("idProfessorFK");
 			}
 			stm.close();
 		}
@@ -314,8 +322,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		System.out.println(idProf);
 		return(idProf);
 	}
 	public int getIdMateria() {
