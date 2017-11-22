@@ -7,6 +7,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -54,6 +62,8 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	private JLabel btnAddAtv = new JLabel(new ImageIcon("img/menu/btn_AddAtv.png"));
 	private JLabel degrade = new JLabel(new ImageIcon("img/menu/degradê.png"));
 	
+	//BANCO DE DADOS VARÁVEIS
+
 	
 	private Menu() {
 		this.setTitle("School Life - Menu Principal");
@@ -71,6 +81,10 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		this.setVisible(true);
 	}
 	
+	//BANCO DE DADOS
+
+	
+	//ACTION LISTENER
 	public void actionPerformed (ActionEvent e) {
 		if (e.getSource() == miAddAtividade) {
 			atividade.CadastrarAtividade a = new atividade.CadastrarAtividade();

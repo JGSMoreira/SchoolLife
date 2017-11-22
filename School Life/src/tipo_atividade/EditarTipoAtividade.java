@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 
 import javafx.scene.layout.Border;
 
-public class VisualizarTipoAtividade extends JFrame implements MouseListener{
+public class EditarTipoAtividade extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -52,10 +52,10 @@ public class VisualizarTipoAtividade extends JFrame implements MouseListener{
 	private Connection conexao;
 	private Statement stm;
 	
-	public VisualizarTipoAtividade (String nomeAtv) {
+	public EditarTipoAtividade (String nomeAtv) {
 		
 		setBounds(100,100,400,143);
-		setTitle("School Life - Visualizar Tipo de Atividade");
+		setTitle("School Life - Editar Tipo de Atividade");
 		setVisible(true);
 		setResizable(false);
 		setLayout(new BorderLayout());
@@ -74,7 +74,6 @@ public class VisualizarTipoAtividade extends JFrame implements MouseListener{
 
 		txtNome.setBounds(180, 15, 185, 30);
 		paCentral.add(txtNome);
-		txtNome.setEditable(false);
 		txtNome.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		txtNome.requestFocus();
 		txtNome.setBorder(BorderFactory.createMatteBorder(1, 5, 1, 1, Color.WHITE));
@@ -95,6 +94,24 @@ public class VisualizarTipoAtividade extends JFrame implements MouseListener{
 		
 		codigo(nomeAtv);
 
+	}
+	
+	public void salvarTipoAtv() {
+		try {
+		Class.forName("com.mysql.jdbc.Driver");
+		conexao = DriverManager.getConnection(url, usuario, senha);
+		stm=conexao.createStatement();
+		
+		stm.executeUpdate("update tipo_atividade set nome = '" + txtNome.getText() + "' where idtipo_atividade = " + codigo + ";");
+		
+		basico.JanelaPergunta a = new basico.JanelaPergunta("Dados gravados com sucesso!");
+		stm.close();		
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void codigo(String nomeAtv) {
@@ -136,6 +153,7 @@ public class VisualizarTipoAtividade extends JFrame implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btnSalvar) {
+			salvarTipoAtv();
 			dispose();
 		}
 	}
