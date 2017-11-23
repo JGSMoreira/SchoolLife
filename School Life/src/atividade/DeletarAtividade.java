@@ -1,4 +1,4 @@
-package materia;
+package atividade;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class DeletaMateria extends JFrame implements ActionListener{
+public class DeletarAtividade extends JFrame implements ActionListener{
 	
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class DeletaMateria extends JFrame implements ActionListener{
 	private JPanel parteSuperior = new JPanel(null),
 				   parteInferior = new JPanel();
 	
-	private JLabel texto = new JLabel("Tem certeza que deseja deletar esta matéria?");
+	private JLabel texto = new JLabel("Tem certeza que deseja deletar esta atividade?");
 	
 	private JButton sim = new JButton("Sim"),
 					nao = new JButton("Não");
@@ -43,7 +43,7 @@ public class DeletaMateria extends JFrame implements ActionListener{
 	private Statement stm;
 	private ResultSet rs;
 	private int codigo;
-	private String nomeMateria;
+	private String nomeAtividade;
 	
 	//BANCO DE DADOS
 	public void deletaDados(int codigo) {
@@ -51,7 +51,7 @@ public class DeletaMateria extends JFrame implements ActionListener{
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 
-			stm.executeUpdate("delete from materia where idMateria = " + codigo +";");
+			stm.executeUpdate("delete from atividade where idAtividade = " + codigo +";");
 
 			stm.close();
 		} catch (SQLException e) {
@@ -60,15 +60,15 @@ public class DeletaMateria extends JFrame implements ActionListener{
 		
 	}
 	
-	public void codigo(String nomeMateria) {
+	public void codigo(String nomeAtividade) {
 		try {
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 
-			this.rs=stm.executeQuery("SELECT idMateria FROM materia where nome like '" + nomeMateria + "';");
+			this.rs=stm.executeQuery("SELECT idAtividade FROM atividade where nome like '" + nomeAtividade + "';");
 			rs.next();
 
-			rs.getString("idMateria");
+			rs.getString("idAtividade");
 			this.codigo=((Number) rs.getObject(1)).intValue();
 
 			stm.close();
@@ -104,13 +104,13 @@ public class DeletaMateria extends JFrame implements ActionListener{
 	}
 	
 	//CONSTRUTOR
-	public DeletaMateria(String nomeMateria) {
+	public DeletarAtividade(String nomeMateria) {
 		setTitle("Janela de Confirmação");
 		adicionaElementos();
 		pack();
 		setBounds(0, 0, 390, 180);
 		this.setLocationRelativeTo(null);
-		this.nomeMateria = nomeMateria;
+		this.nomeAtividade = nomeMateria;
 		setVisible(true);
 		revalidate();
 		repaint();
@@ -128,8 +128,8 @@ public class DeletaMateria extends JFrame implements ActionListener{
 			dispose();
 		}
 		if (e.getSource() == sim) {
-			codigo(nomeMateria);
-			basico.JanelaPergunta a = new basico.JanelaPergunta("Matéria deletada com sucesso!");
+			codigo(nomeAtividade);
+			basico.JanelaPergunta a = new basico.JanelaPergunta("Atividade deletada com sucesso!");
 			dispose();
 		}
 		
