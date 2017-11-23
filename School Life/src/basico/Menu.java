@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 
 import atividade.CadastrarAtividade;
 import materia.CadastrarMateria;
+import sun.applet.Main;
 
 public class Menu extends JFrame implements ActionListener, MouseListener{
 	
@@ -57,10 +59,15 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	
 	private Font ftLogo = new Font("Product Sans", Font.PLAIN, 30);
 	
-	private JLabel btnCadProf = new JLabel(new ImageIcon("img/menu/btn_CadProf.png"));
-	private JLabel btnCadMat = new JLabel(new ImageIcon("img/menu/btn_CadMat.png"));
-	private JLabel btnAddAtv = new JLabel(new ImageIcon("img/menu/btn_AddAtv.png"));
-	private JLabel degrade = new JLabel(new ImageIcon("img/menu/degradê.png"));
+	URL urlCadProf = Menu.class.getResource("menu/btn_CadProf.png");
+	URL urlCadMat = Menu.class.getResource("menu/btn_CadMat.png");
+	URL urlAddAtv = Menu.class.getResource("menu/btn_AddAtv.png");
+	URL urldegrade = Menu.class.getResource("menu/degradê.png");
+	
+	private JLabel btnCadProf = new JLabel(new ImageIcon(urlCadProf));
+	private JLabel btnCadMat = new JLabel(new ImageIcon(urlCadMat));
+	private JLabel btnAddAtv = new JLabel(new ImageIcon(urlAddAtv));
+	private JLabel degrade = new JLabel(new ImageIcon(urldegrade));
 	
 	//BANCO DE DADOS VARÁVEIS
 
