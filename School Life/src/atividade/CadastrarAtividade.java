@@ -137,13 +137,17 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		
 	}
 	
-	public void estilizador() {
+	public void estilizador() {		
 		paCentral.setBackground(new Color(16, 28, 28));
 		paCentral.setLayout(null);
 		paInf.setBackground(new Color(28, 49, 49));
 		txtCod.setEditable(false);
 		Font fonteOpenSans1 = new Font("Open Sans", Font.PLAIN, 12);
 		txtCod.setHorizontalAlignment(JTextField.CENTER);
+		
+		txtCod.setHorizontalAlignment(JTextField.CENTER);
+		txtEtapa.setHorizontalAlignment(JTextField.CENTER);
+		txtValor.setHorizontalAlignment(JTextField.CENTER);
 		
 		lblContinuaPontos.setFont(fonteOpenSans1);
 		lblEtapa.setFont(fonteOpenSans1);
