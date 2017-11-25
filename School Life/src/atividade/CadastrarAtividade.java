@@ -396,7 +396,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	
 	//CONSTRUTOR
 	public CadastrarAtividade() {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		this.setTitle("School Life - Cadastrar Atividade");
 		this.setBounds(0, 0, 400, 390);
 		this.setLayout(new BorderLayout());

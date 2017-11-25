@@ -211,7 +211,7 @@ public class CadastrarMateria extends JFrame implements ActionListener, MouseLis
 	
 	//CONSTRUTOR
 	public CadastrarMateria() {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		this.setTitle("School Life - Cadastrar Matéria");
 		this.setBounds(0, 0, 400, 180);
 		this.setLayout(new BorderLayout());

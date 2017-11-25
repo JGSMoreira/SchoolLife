@@ -2,9 +2,11 @@ package basico;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -25,6 +27,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 import atividade.CadastrarAtividade;
 import materia.CadastrarMateria;
@@ -62,15 +66,15 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	private JLabel btnCadMat = new JLabel(new ImageIcon("img/menu/btn_CadMat.png"));
 	private JLabel btnAddAtv = new JLabel(new ImageIcon("img/menu/btn_AddAtv.png"));
 	private JLabel degrade = new JLabel(new ImageIcon("img/menu/degradê.png"));
+	private JLabel tutorial = new JLabel(new ImageIcon("img/menu/Tutorial.png"));
 	
-	//BANCO DE DADOS VARÁVEIS
-
-	
+	//CONSTRUTOR
 	private Menu() {
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		this.setTitle("School Life - Menu Principal");
 		this.setBounds(10, 10, 800, 600);
 		this.setLayout(new BorderLayout());
-		this.setResizable(false);
+		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -79,11 +83,12 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		estilizador();
 		adicionaListeners();
 		
+		revalidate();
+		repaint();
+		
 		this.setVisible(true);
 	}
 	
-	//BANCO DE DADOS
-
 	
 	//ACTION LISTENER
 	public void actionPerformed (ActionEvent e) {
@@ -96,11 +101,20 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		if (e.getSource() == miAddMateria) {
 			materia.CadastrarMateria a = new CadastrarMateria();
 		}
+		if(e.getSource() == miAddTipoAtividade) {
+			tipo_atividade.CadastrarTipoAtividade ta = new  tipo_atividade.CadastrarTipoAtividade();
+		}
 		if(e.getSource() == miVerProf) {
 			professor.ListarProfessores vp = new professor.ListarProfessores();
 		}
-		if(e.getSource() == miAddTipoAtividade) {
-			tipo_atividade.CadastrarTipoAtividade ta = new  tipo_atividade.CadastrarTipoAtividade();
+		if(e.getSource() == miVerAtv) {
+			atividade.ListarAtividades va = new atividade.ListarAtividades();
+		}
+		if(e.getSource() == miVerMat) {
+			materia.ListarMaterias vm = new materia.ListarMaterias();
+		}
+		if(e.getSource() == miVerTipoAtividade) {
+			tipo_atividade.ListarTipoAtividade vta = new tipo_atividade.ListarTipoAtividade();
 		}
 	}
 	
@@ -131,8 +145,10 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		paEsquerdo.add(btnCadProf);
 		paEsquerdo.add(btnCadMat);
 		paEsquerdo.add(btnAddAtv);
-		paCentro.add(degrade);
-			
+		
+		paCentro.add(tutorial, BorderLayout.CENTER);
+		paCentro.add(degrade, BorderLayout.NORTH);
+		
 		System.out.println("Objetos adicionados na tela.");
 	}
 	
@@ -140,6 +156,7 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 	public void posicionador() {
 		paCentro.setLayout(null);
 		degrade.setBounds(-20, -275, 820, 600);
+		tutorial.setBounds(-20, -150, 820, 600);
 		System.out.println("Objetos posicionados na tela.");
 	}
 	

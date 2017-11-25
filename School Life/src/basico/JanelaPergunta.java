@@ -10,6 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +28,7 @@ import javax.swing.SwingConstants;
 
 import javafx.scene.layout.Border;
 
-public class JanelaPergunta extends JFrame implements ActionListener{
+public class JanelaPergunta extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -35,9 +38,8 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 	private JPanel parteSuperior = new JPanel(),
 				   parteInferior = new JPanel();
 	
-	private JLabel areaTexto = new JLabel();
-	
-	private JButton ok = new JButton("OK");
+	private JLabel areaTexto = new JLabel(),
+				   btnOK = new JLabel(new ImageIcon("img/geral/btnOK.png"));
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 16);
 	
@@ -49,7 +51,7 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 		parteSuperior.setLayout(new GridBagLayout());
 		parteSuperior.add(areaTexto);
 		
-		parteInferior.add(ok);
+		parteInferior.add(btnOK);
 		
 		organizaElementos();
 	}
@@ -67,6 +69,7 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 	
 	//CONSTRUTOR
 	public JanelaPergunta(String texto) {
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setTitle("Janela de confirmação");
 		adicionaElementos();
 		pack();
@@ -77,18 +80,42 @@ public class JanelaPergunta extends JFrame implements ActionListener{
 		revalidate();
 		repaint();
 		
-		ok.addActionListener(this);
+		btnOK.addMouseListener(this);
 		
 	}
-	
-	public static void main (String [] args) {
-		JanelaPergunta del = new JanelaPergunta(null);
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == ok) {
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnOK) {
 			dispose();
 		}
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnOK) {
+			btnOK.setIcon(new ImageIcon("img/geral/btnOKhover.png"));
+		}
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnOK) {
+			btnOK.setIcon(new ImageIcon("img/geral/btnOK.png"));
+		}
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

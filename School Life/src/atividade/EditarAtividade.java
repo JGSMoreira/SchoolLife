@@ -414,7 +414,7 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 	
 	//CONSTRUTOR
 	public EditarAtividade(String nomeAtv) {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		this.setTitle("School Life - Cadastrar Atividade");
 		this.setBounds(0, 0, 400, 390);
 		this.setLayout(new BorderLayout());
@@ -476,7 +476,7 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 		if (e.getSource() == btnSalvar) {
 			if (! txtNome.getText().equals("")) {
 				enviaDados();
-				basico.JanelaPergunta a = new basico.JanelaPergunta("Atividade cadastrada com sucesso!");
+				basico.JanelaPergunta a = new basico.JanelaPergunta("Atividade editada com sucesso!");
 				dispose();
 			}
 		}

@@ -4,20 +4,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class DeletarAtividade extends JFrame implements ActionListener{
+public class DeletarAtividade extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -29,8 +33,8 @@ public class DeletarAtividade extends JFrame implements ActionListener{
 	
 	private JLabel texto = new JLabel("Tem certeza que deseja deletar esta atividade?");
 	
-	private JButton sim = new JButton("Sim"),
-					nao = new JButton("Não");
+	private JLabel sim = new JLabel(new ImageIcon("img/geral/btnSim.png")),
+			       nao = new JLabel(new ImageIcon("img/geral/btnNão.png"));
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 16);
 	
@@ -83,6 +87,7 @@ public class DeletarAtividade extends JFrame implements ActionListener{
 		this.add(parteInferior, BorderLayout.SOUTH);
 		this.add(parteSuperior, BorderLayout.CENTER);
 		
+		parteSuperior.setLayout(new GridBagLayout());
 		parteSuperior.add(texto);
 		
 		parteInferior.add(sim);
@@ -105,9 +110,11 @@ public class DeletarAtividade extends JFrame implements ActionListener{
 	
 	//CONSTRUTOR
 	public DeletarAtividade(String nomeMateria) {
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setTitle("Janela de Confirmação");
 		adicionaElementos();
 		pack();
+		this.setResizable(false);
 		setBounds(0, 0, 390, 180);
 		this.setLocationRelativeTo(null);
 		this.nomeAtividade = nomeMateria;
@@ -118,12 +125,12 @@ public class DeletarAtividade extends JFrame implements ActionListener{
 		testes.listView aa = new testes.listView();
 		aa.setAtualizar();
 		
-		sim.addActionListener(this);
-		nao.addActionListener(this);
+		sim.addMouseListener(this);
+		nao.addMouseListener(this);
 		
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		if (e.getSource() == nao) {
 			dispose();
 		}
@@ -132,6 +139,41 @@ public class DeletarAtividade extends JFrame implements ActionListener{
 			basico.JanelaPergunta a = new basico.JanelaPergunta("Atividade deletada com sucesso!");
 			dispose();
 		}
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == nao) {
+			nao.setIcon(new ImageIcon("img/geral/btnNãohover.png"));
+		}
+		if(e.getSource() == sim) {
+			sim.setIcon(new ImageIcon("img/geral/btnSimhover.png"));
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == nao) {
+			nao.setIcon(new ImageIcon("img/geral/btnNão.png"));
+		}
+		if(e.getSource() == sim) {
+			sim.setIcon(new ImageIcon("img/geral/btnSim.png"));
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

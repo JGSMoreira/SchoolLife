@@ -49,12 +49,12 @@ public class ListarAtividades extends JFrame implements MouseListener{
 	
 	private JPanel navbar = new JPanel();
 	private JPanel gradeInferior = new JPanel();
-	private JXTextField txtPesq = new JXTextField("Digite o nome de um professor");
+	private JXTextField txtPesq = new JXTextField("Digite o nome de uma atividde");
 	private JLabel btnBusc = new JLabel(new ImageIcon("img/tabela/btnSearch.png")),
 				   btnAtualizar = new JLabel(new ImageIcon("img/tabela/btnRefresh.png")),
 				   logo = new JLabel(new ImageIcon("img/menu/logo.png"));
 	
-	private JLabel addProf = new JLabel("+ ADICIONAR PROFESSOR");
+	private JLabel addProf = new JLabel("+ ADICIONAR ATIVIDADE");
 	
 	private JScrollPane scroll = new JScrollPane();
 	private int contaTamanho = 0;
@@ -84,12 +84,12 @@ public class ListarAtividades extends JFrame implements MouseListener{
 	//BANCO DE DADOS
 		//BOT�O ATUALIZAR
 		public void getDados() {
-			carregaDados("select * from professor;");
+			carregaDados("select *, DATE_FORMAT(data_entrega,'%d/%m/%y') AS dataForma from atividade ORDER BY dataForma DESC;");
 		}
 		//BOT�O PESQUISAR
 		public void getDadosPesquisa() {
 			if (!txtPesq.getText().equals("")) {
-				carregaDados("select * from professor where nome like '%" + txtPesq.getText() + "%';");
+				carregaDados("select *, DATE_FORMAT(data_entrega,'%d/%m/%y') AS dataForma from atividade where nome like '%" + txtPesq.getText() + "%' ORDER BY dataForma DESC;");
 			}
 		}
 		//CARREGA DADOS
@@ -100,40 +100,45 @@ public class ListarAtividades extends JFrame implements MouseListener{
 				stm=conexao.createStatement();
 				this.rs = stm.executeQuery(comando);
 				
-				int espacamento = 0;
+				int espacamento = 35;
 				int primeiro = 0;
 				
 				gradeInferior.removeAll();
 				
 				while(rs.next()) {
 					JLabel nomeProf = new JLabel(),
-						   codProf = new JLabel();						   
+						   codProf = new JLabel(),
+						   prioridade = new JLabel();						   
 					JSeparator separador = new JSeparator();
 					JLabel btnEditar = new JLabel(new ImageIcon("img/tabela/btnEditar.png")),
 						   btnExcluir = new JLabel(new ImageIcon("img/tabela/btnExcluir.png")),
 						   btnVer = new JLabel(new ImageIcon("img/tabela/btnVisualizar.png"));
 					
 					nomeProf.setText(rs.getString("nome"));
-					codProf.setText(rs.getString("idProfessor"));
+					codProf.setText(rs.getString("dataForma"));
+					prioridade.setText(rs.getString("prioridade"));					
 					
-					rs.getInt("idProfessor");
+					rs.getInt("idAtividade");
 					if (rs.wasNull()) {
 						revalidate();
 					}
 					else {
 						if (primeiro ==  0) {
-							espacamento = 15;
-							codProf.setBounds(25, espacamento, 1000, 25);
-							nomeProf.setBounds(75, espacamento, 1000, 25);
+							espacamento = espacamento + 15;
+							codProf.setBounds(15, espacamento, 1000, 25);
+							nomeProf.setBounds(145, espacamento, 1000, 25);
+							prioridade.setBounds(450, espacamento, 1000, 25);
 							primeiro = 1;
 						}
 						else {
-							codProf.setBounds(25, espacamento, 1000, 25);
-							nomeProf.setBounds(75, espacamento, 1000, 25);	
+							codProf.setBounds(15, espacamento, 1000, 25);
+							nomeProf.setBounds(145, espacamento, 1000, 25);
+							prioridade.setBounds(450, espacamento, 1000, 25);
 						}
 						
 						gradeInferior.add(nomeProf);
 						gradeInferior.add(codProf);
+						gradeInferior.add(prioridade);
 						gradeInferior.add(separador);
 						gradeInferior.add(btnEditar);
 						gradeInferior.add(btnVer);
@@ -141,6 +146,19 @@ public class ListarAtividades extends JFrame implements MouseListener{
 						
 						nomeProf.setForeground(textoCor1);
 						codProf.setForeground(textoCor1);
+						
+						if (prioridade.getText().equals("BAIXA")){
+							prioridade.setForeground(Color.GREEN);
+						}
+						else if (prioridade.getText().equals("MÉDIA")){
+							prioridade.setForeground(Color.YELLOW);
+						}
+						else if (prioridade.getText().equals("ALTA")){
+							prioridade.setForeground(Color.ORANGE);
+						}
+						else if (prioridade.getText().equals("EXTREMA")){
+							prioridade.setForeground(Color.RED);
+						}
 						
 						btnEditar.setBounds(545, espacamento - 5, 75, 35);
 						btnVer.setBounds(615, espacamento - 5, 75, 35);
@@ -150,16 +168,18 @@ public class ListarAtividades extends JFrame implements MouseListener{
 						
 						espacamento = espacamento + 55;
 						contaTamanho = espacamento + 30;
+						
 					}
 					separador.setForeground(separadorCor);
 					
 					codProf.setFont(fonteNegrito);
+					prioridade.setFont(fonteNegrito);
 					nomeProf.setFont(fonte);
 					
 					btnEditar.addMouseListener(new MouseAdapter() {
 						public void mouseClicked(java.awt.event.MouseEvent e) {
 							if (e.getSource() == btnEditar) {
-								professor.EditaProfessor edita = new professor.EditaProfessor(nomeProf.getText());
+								EditarAtividade edita = new EditarAtividade(nomeProf.getText());
 							}
 						}
 						public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -177,7 +197,7 @@ public class ListarAtividades extends JFrame implements MouseListener{
 					btnVer.addMouseListener(new MouseAdapter() {
 						public void mouseClicked(java.awt.event.MouseEvent e) {
 							if (e.getSource() == btnVer) {
-								professor.VisualizaProfessor visualizar = new professor.VisualizaProfessor(nomeProf.getText());
+								VisualizarAtividade visualizar = new VisualizarAtividade(nomeProf.getText());
 							}
 						}
 						public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -195,7 +215,7 @@ public class ListarAtividades extends JFrame implements MouseListener{
 					btnExcluir.addMouseListener(new MouseAdapter() {
 						public void mouseClicked(java.awt.event.MouseEvent e) {
 							if (e.getSource() == btnExcluir) {
-								professor.DeletaProfessor deletar = new professor.DeletaProfessor(nomeProf.getText());
+								DeletarAtividade deletar = new DeletarAtividade(nomeProf.getText());
 								getDados();
 							}
 						}
@@ -232,12 +252,39 @@ public class ListarAtividades extends JFrame implements MouseListener{
 				else {
 					dadosEncont = true;
 					addProf.setIcon(null);
-					addProf.setText("+ ADICIONAR PROFESSOR");
+					addProf.setText("+ ADICIONAR ATIVIDADE");
 					gradeInferior.add(addProf);
 					addProf.setBounds(605, espacamento - 5, 300, 25);
 					addProf.setForeground(textoCor1);
 					addProf.setFont(fonteNegrito);
+					
+					JLabel dataEn = new JLabel("Data de Entrega");
+					JLabel nomeAtv = new JLabel("Nome da Atividade");
+					JLabel prioridadeAtv = new JLabel("Prioridade");
+					JLabel opcAtv = new JLabel("Opções");
+					
+					dataEn.setBounds(15, 10, 1000, 25);
+					nomeAtv.setBounds(145, 10, 1000, 25);
+					prioridadeAtv.setBounds(450, 10, 1000, 25);
+					opcAtv.setBounds(625, 10, 1000, 25);
+					
+					gradeInferior.add(dataEn);
+					gradeInferior.add(nomeAtv);
+					gradeInferior.add(prioridadeAtv);
+					gradeInferior.add(opcAtv);
+					
+					dataEn.setFont(fonte);
+					nomeAtv.setFont(fonte);
+					prioridadeAtv.setFont(fonte);
+					opcAtv.setFont(fonte);
+					
+					dataEn.setForeground(textoCor1);
+					nomeAtv.setForeground(textoCor1);
+					prioridadeAtv.setForeground(textoCor1);
+					opcAtv.setForeground(textoCor1);
 				}
+				
+				
 			}
 			
 			catch(Exception e) {
@@ -290,7 +337,8 @@ public class ListarAtividades extends JFrame implements MouseListener{
 		}
 		
 		public ListarAtividades() {
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
+			this.setTitle("School Life - Lista de Atividades");
 			
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
@@ -304,20 +352,17 @@ public class ListarAtividades extends JFrame implements MouseListener{
 			revalidate();
 			repaint();
 			
+			this.setVisible(true);
+			
 			btnBusc.addMouseListener(this);
 			btnAtualizar.addMouseListener(this);
 			addProf.addMouseListener(this);
-		}
-		
-		public static void main (String [] args) {
-			ListarAtividades list = new ListarAtividades();
-			list.setVisible(true);
 		}
 
 		@Override
 		public void mouseClicked(java.awt.event.MouseEvent e) {
 			if (e.getSource() == addProf) {
-				CadastroProfessor cad = new CadastroProfessor();
+				CadastrarAtividade cad = new CadastrarAtividade();
 			}
 			if (e.getSource() == btnBusc) {
 				getDadosPesquisa();

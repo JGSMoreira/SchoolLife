@@ -49,6 +49,7 @@ private static final long serialVersionUID = -4248697972014390077L;
 	private Statement stm;
 	
 	public EditaProfessor (String nomeProf) {
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setBounds(100,100,400,185);
 		setTitle("School Life - Edição de Professor");
 		setVisible(true);
@@ -154,7 +155,7 @@ private static final long serialVersionUID = -4248697972014390077L;
 		stm.executeUpdate("update professor set nome = '" + txtNome.getText() + "' where idProfessor = " + codigo + ";");
 		stm.executeUpdate("update professor set email = '" + txtEmail.getText() + "' where idProfessor = " + codigo + ";");
 		
-		basico.JanelaPergunta a = new basico.JanelaPergunta("Dados gravados com sucesso!");
+		basico.JanelaPergunta a = new basico.JanelaPergunta("Professor editado com sucesso!");
 		stm.close();		
 		}
 		

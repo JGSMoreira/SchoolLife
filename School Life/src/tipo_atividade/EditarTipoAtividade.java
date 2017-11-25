@@ -53,7 +53,7 @@ public class EditarTipoAtividade extends JFrame implements MouseListener{
 	private Statement stm;
 	
 	public EditarTipoAtividade (String nomeAtv) {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setBounds(100,100,400,143);
 		setTitle("School Life - Editar Tipo de Atividade");
 		setVisible(true);

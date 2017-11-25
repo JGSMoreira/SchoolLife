@@ -4,20 +4,24 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class DeletaTipoAtividade extends JFrame implements ActionListener{
+public class DeletaTipoAtividade extends JFrame implements MouseListener{
 	
 	/**
 	 * 
@@ -27,10 +31,10 @@ public class DeletaTipoAtividade extends JFrame implements ActionListener{
 	private JPanel parteSuperior = new JPanel(null),
 				   parteInferior = new JPanel();
 	
-	private JLabel texto = new JLabel("Tem certeza que deseja deletar este tipo de atividade?");
+	private JLabel texto = new JLabel("Tem certeza que deseja deletar isto?");
 	
-	private JButton sim = new JButton("Sim"),
-					nao = new JButton("Não");
+	private JLabel sim = new JLabel(new ImageIcon("img/geral/btnSim.png")),
+				   nao = new JLabel(new ImageIcon("img/geral/btnNão.png"));
 	
 	private Font fonte = new Font ("Open Sans", Font.PLAIN, 16);
 	
@@ -68,7 +72,7 @@ public class DeletaTipoAtividade extends JFrame implements ActionListener{
 			this.rs=stm.executeQuery("SELECT idTipo_atividade FROM tipo_atividade where nome like '%" + nomeTipoAtv + "%';");
 			rs.next();
 
-			rs.getString("idProfessor");
+			rs.getString("idTipo_atividade");
 			this.codigo=((Number) rs.getObject(1)).intValue();
 
 			stm.close();
@@ -83,6 +87,7 @@ public class DeletaTipoAtividade extends JFrame implements ActionListener{
 		this.add(parteInferior, BorderLayout.SOUTH);
 		this.add(parteSuperior, BorderLayout.CENTER);
 		
+		parteSuperior.setLayout(new GridBagLayout());
 		parteSuperior.add(texto);
 		
 		parteInferior.add(sim);
@@ -105,10 +110,12 @@ public class DeletaTipoAtividade extends JFrame implements ActionListener{
 	
 	//CONSTRUTOR
 	public DeletaTipoAtividade(String nomeTipoAtv) {
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setTitle("Janela de Confirmação");
 		adicionaElementos();
 		pack();
 		setBounds(0, 0, 390, 180);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.nomeTipoAtv = nomeTipoAtv;
 		setVisible(true);
@@ -118,12 +125,14 @@ public class DeletaTipoAtividade extends JFrame implements ActionListener{
 		testes.listView aa = new testes.listView();
 		aa.setAtualizar();
 		
-		sim.addActionListener(this);
-		nao.addActionListener(this);
+		sim.addMouseListener(this);
+		nao.addMouseListener(this);
 		
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
 		if (e.getSource() == nao) {
 			dispose();
 		}
@@ -132,6 +141,42 @@ public class DeletaTipoAtividade extends JFrame implements ActionListener{
 			basico.JanelaPergunta a = new basico.JanelaPergunta("Tipo de Atividade deletado com sucesso!");
 			dispose();
 		}
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == nao) {
+			nao.setIcon(new ImageIcon("img/geral/btnNãohover.png"));
+		}
+		if(e.getSource() == sim) {
+			sim.setIcon(new ImageIcon("img/geral/btnSimhover.png"));
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == nao) {
+			nao.setIcon(new ImageIcon("img/geral/btnNão.png"));
+		}
+		if(e.getSource() == sim) {
+			sim.setIcon(new ImageIcon("img/geral/btnSim.png"));
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 

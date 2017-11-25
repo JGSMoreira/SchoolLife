@@ -53,7 +53,7 @@ public class VisualizarTipoAtividade extends JFrame implements MouseListener{
 	private Statement stm;
 	
 	public VisualizarTipoAtividade (String nomeAtv) {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setBounds(100,100,400,143);
 		setTitle("School Life - Visualizar Tipo de Atividade");
 		setVisible(true);

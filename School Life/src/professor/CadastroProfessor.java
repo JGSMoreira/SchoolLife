@@ -56,7 +56,7 @@ public class CadastroProfessor extends JFrame implements ActionListener, MouseLi
 	private Statement stm;
 	
 	public CadastroProfessor () {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setBounds(100,100,400,185);
 		setTitle("School Life - Cadastro de Professor");
 		setVisible(true);

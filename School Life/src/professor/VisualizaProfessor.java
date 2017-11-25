@@ -58,6 +58,7 @@ public class VisualizaProfessor extends JFrame implements ActionListener, MouseL
 	private Statement stm;
 	
 	public VisualizaProfessor (String nomeProf) {
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setBounds(100,100,400,185);
 		setTitle("School Life - Visualizar Professor");
 		setVisible(true);

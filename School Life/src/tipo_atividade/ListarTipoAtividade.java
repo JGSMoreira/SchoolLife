@@ -290,7 +290,8 @@ public class ListarTipoAtividade extends JFrame implements MouseListener{
 		}
 		
 		public ListarTipoAtividade() {
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
+			this.setTitle("School Life - Lista de Tipos de Atividades");
 			
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);
@@ -303,6 +304,8 @@ public class ListarTipoAtividade extends JFrame implements MouseListener{
 			estilizar();
 			revalidate();
 			repaint();
+			
+			this.setVisible(true);
 			
 			btnBusc.addMouseListener(this);
 			btnAtualizar.addMouseListener(this);

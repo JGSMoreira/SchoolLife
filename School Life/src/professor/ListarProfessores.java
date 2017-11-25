@@ -290,7 +290,8 @@ public class ListarProfessores extends JFrame implements MouseListener{
 		}
 		
 		public ListarProfessores() {
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
+			this.setTitle("School Life - Lista de Professores");
 			
 			setBounds(100, 100, 800, 600);
 			this.setLocationRelativeTo(null);

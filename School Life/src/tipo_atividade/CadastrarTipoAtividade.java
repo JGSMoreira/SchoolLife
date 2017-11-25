@@ -54,7 +54,7 @@ public class CadastrarTipoAtividade extends JFrame implements ActionListener, Mo
 	private Statement stm;
 	
 	public CadastrarTipoAtividade () {
-		
+		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
 		setBounds(100,100,400,143);
 		setTitle("School Life - Cadastro de Tipo de Atividade");
 		setVisible(true);
