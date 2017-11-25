@@ -143,7 +143,10 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 		paInf.setBackground(new Color(28, 49, 49));
 		txtCod.setEditable(false);
 		Font fonteOpenSans1 = new Font("Open Sans", Font.PLAIN, 12);
+		
 		txtCod.setHorizontalAlignment(JTextField.CENTER);
+		txtEtapa.setHorizontalAlignment(JTextField.CENTER);
+		txtValor.setHorizontalAlignment(JTextField.CENTER);
 		
 		lblContinuaPontos.setFont(fonteOpenSans1);
 		lblEtapa.setFont(fonteOpenSans1);
@@ -200,12 +203,12 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 
-			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(etapa), MAX(valor) FROM atividade where idAtividade = " + codigo + ";");
+			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(etapa), MAX(pontuacao) FROM atividade where idAtividade = " + codigo + ";");
 			rs.next();
 
 			txtNome.setText(rs.getString("MAX(nome)"));
 			txtEtapa.setText(rs.getString("MAX(etapa)"));
-			txtValor.setText(rs.getString("MAX(valor)"));
+			txtValor.setText(rs.getString("MAX(pontuacao)"));
 
 			stm.close();
 		} catch (SQLException e) {
@@ -214,14 +217,14 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 		
 	}
 	
-	public void codigo() {
+	public void codigo(String nomeAtv) {
 		
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm = conexao.createStatement();
 
-			this.rs = stm.executeQuery("SELECT MAX(idAtividade) FROM atividade;");
+			this.rs = stm.executeQuery("SELECT MAX(idAtividade) FROM atividade where nome like '"+nomeAtv+"';");
 			rs.next();
 			
 			rs.getString("MAX(idAtividade)");
@@ -306,7 +309,7 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 			stm.executeUpdate("update atividade set nome ='"+nome+"', etapa ='"+etapa+"', "
 					+ "pontuacao='"+pontuacao+"', prioridade='"+prioridade+"', situacao='"
 					+ situacao+"', idtipo_atividadefk='"+idTipoAtv+"', idProfessorfk='"
-					+idProf+"', idMateriafk ='");
+					+idProf+"', idMateriafk ='"+idMateria+"' where idAtividade = "+codigo);
 		
 			stm.close();
 			dispose();
@@ -410,7 +413,7 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 	}
 	
 	//CONSTRUTOR
-	public EditarAtividade() {
+	public EditarAtividade(String nomeAtv) {
 		
 		this.setTitle("School Life - Cadastrar Atividade");
 		this.setBounds(0, 0, 400, 390);
@@ -452,7 +455,7 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 		adicionador();
 		posicionador();
 		estilizador();
-		codigo();
+		codigo(nomeAtv);
 		carregaMaterias();
 		carregaTipoAtv();
 		
