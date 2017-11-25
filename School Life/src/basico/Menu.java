@@ -74,7 +74,7 @@ public class Menu extends JFrame implements ActionListener, MouseListener{
 		this.setTitle("School Life - Menu Principal");
 		this.setBounds(10, 10, 800, 600);
 		this.setLayout(new BorderLayout());
-		this.setResizable(true);
+		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
