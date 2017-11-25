@@ -195,6 +195,24 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 	private int codigo;
 	
 	//BANCO DE DADOS
+	public void carregaDados(int codigo) {
+		try {
+			conexao = DriverManager.getConnection(url, usuario, senha);
+			stm=conexao.createStatement();
+
+			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(etapa), MAX(valor) FROM atividade where idAtividade = " + codigo + ";");
+			rs.next();
+
+			txtNome.setText(rs.getString("MAX(nome)"));
+			txtEtapa.setText(rs.getString("MAX(etapa)"));
+			txtValor.setText(rs.getString("MAX(valor)"));
+
+			stm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public void codigo() {
 		
@@ -207,19 +225,14 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 			rs.next();
 			
 			rs.getString("MAX(idAtividade)");
-			if(rs.wasNull()) {
-				codigo= 1;
-			}
-			else {
-				this.codigo = ((Number) rs.getObject(1)).intValue();
-				this.codigo = codigo + 1;
-			}
+			this.codigo = ((Number) rs.getObject(1)).intValue();
 			txtCod.setText(Integer.toString(codigo));
 			stm.close();	
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+		carregaDados(codigo);
 	}
 	
 	public void carregaMaterias() {
@@ -290,8 +303,10 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 			
-			stm.executeUpdate("insert into atividade (nome, etapa, pontuacao, prioridade, data_entrega, situacao, idTipo_AtividadeFK, idProfessorFK, idMateriaFK) values"
-					+ "('"+nome+"', "+etapa+","+pontuacao+",'"+prioridade+"','"+data+"','"+situacao+"',"+idTipoAtv+","+idProf+","+idMateria+");");
+			stm.executeUpdate("update atividade set nome ='"+nome+"', etapa ='"+etapa+"', "
+					+ "pontuacao='"+pontuacao+"', prioridade='"+prioridade+"', situacao='"
+					+ situacao+"', idtipo_atividadefk='"+idTipoAtv+"', idProfessorfk='"
+					+idProf+"', idMateriafk ='");
 		
 			stm.close();
 			dispose();
