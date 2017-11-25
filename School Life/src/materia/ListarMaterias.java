@@ -269,8 +269,6 @@ public class ListarMaterias extends JFrame implements MouseListener{
 		}
 		
 		public void estilizar() {
-			ImageIcon ico = new ImageIcon("img/download.jpg");
-			this.setIconImage(ico.getImage());
 			navbar.setBackground(navBarCor);
 			gradeInferior.setBackground(gradeInferiorCor);
 			navbar.setBackground(navBarCor);
