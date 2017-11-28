@@ -229,13 +229,13 @@ public class VisualizarAtividade extends JFrame implements MouseListener{
 			conexao = DriverManager.getConnection(url, usuario, senha);
 			stm=conexao.createStatement();
 
-			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(etapa), MAX(pontuacao), MAX(data_entrega), MAX(prioridade), MAX(situacao), MAX(idTipo_atividadefk), MAX(idMateriaFK) FROM atividade where idAtividade = " + codigo + ";");
+			this.rs=stm.executeQuery("SELECT MAX(nome), MAX(etapa), MAX(pontuacao), MAX(data_entrega), MAX(prioridade), MAX(situacao), MAX(idTipo_atividadefk), MAX(idMateriaFK), DATE_FORMAT(MAX(data_entrega),'%d/%m/%y') AS dataForma FROM atividade where idAtividade = " + codigo + ";");
 			rs.next();
 
 			txtNome.setText(rs.getString("MAX(nome)"));
 			txtEtapa.setText(rs.getString("MAX(etapa)"));
 			txtValor.setText(rs.getString("MAX(pontuacao)"));
-			txtDia.setText(rs.getString("MAX(data_entrega)"));
+			txtDia.setText(rs.getString("dataForma"));
 			txtEstadoAtividade.setText(rs.getString("MAX(situacao)"));
 			txtPrioridade.setText(rs.getString("MAX(prioridade)"));
 			
@@ -274,7 +274,7 @@ public class VisualizarAtividade extends JFrame implements MouseListener{
 	//CONSTRUTOR
 	public VisualizarAtividade(String nomeAtv) {
 		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
-		this.setTitle("School Life - Cadastrar Atividade");
+		this.setTitle("School Life - Visualizar Atividade");
 		this.setBounds(0, 0, 400, 390);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);

@@ -84,7 +84,7 @@ public class ListarAtividades extends JFrame implements MouseListener{
 	//BANCO DE DADOS
 		//BOT�O ATUALIZAR
 		public void getDados() {
-			carregaDados("select *, DATE_FORMAT(data_entrega,'%d/%m/%y') AS dataForma from atividade ORDER BY dataForma DESC;");
+			carregaDados("select *, DATE_FORMAT(data_entrega,'%d/%m/%y') AS dataForma from atividade ORDER BY dataForma ASC;");
 		}
 		//BOT�O PESQUISAR
 		public void getDadosPesquisa() {

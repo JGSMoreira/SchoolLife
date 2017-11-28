@@ -415,7 +415,7 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 	//CONSTRUTOR
 	public EditarAtividade(String nomeAtv) {
 		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
-		this.setTitle("School Life - Cadastrar Atividade");
+		this.setTitle("School Life - Editar Atividade");
 		this.setBounds(0, 0, 400, 390);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);

@@ -225,7 +225,7 @@ public class EditarMateria extends JFrame implements MouseListener{
 	//CONSTRUTOR
 	public EditarMateria(String nomeMate) {
 		this.setIconImage(new ImageIcon("img/geral/icon.png").getImage());
-		this.setTitle("School Life - Visualizar Matéria");
+		this.setTitle("School Life - Editar Matéria");
 		this.setBounds(0, 0, 400, 180);
 		this.setLayout(new BorderLayout());
 		this.setResizable(false);
