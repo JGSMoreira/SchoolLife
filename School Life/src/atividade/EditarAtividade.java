@@ -224,8 +224,8 @@ public class EditarAtividade extends JFrame implements MouseListener, ItemListen
 			rs.next();
 
 			txtNome.setText(rs.getString("MAX(nome)"));
-			txtEtapa.setText(rs.getString("MAX(etapa)"));
-			txtValor.setText(rs.getString("MAX(pontuacao)"));
+			txtEtapa.setValue(rs.getString("MAX(etapa)"));
+			txtValor.setValue(rs.getString("MAX(pontuacao)"));
 
 			stm.close();
 		} catch (SQLException e) {
