@@ -23,12 +23,14 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.text.MaskFormatter;
 
 import materia.CadastrarMateria;
 
@@ -40,6 +42,10 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 	private static final long serialVersionUID = 1L;
 
 	//VARIÁVEIS
+	
+	private JFormattedTextField txtValor = new JFormattedTextField(),
+			   					txtEtapa = new JFormattedTextField();
+	
 	private JLabel lblNome = new JLabel("Nome da atividade"),
 				   lblValor = new JLabel("Valor"),
 				   lblEtapa = new JLabel("Etapa"),
@@ -54,8 +60,6 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 				   lblEstadodaAtividade = new JLabel("Status");
 	
 	private JTextField txtNome = new JTextField(15),
-					   txtValor = new JTextField(15),
-					   txtEtapa = new JTextField(15),
 					   txtCod = new JTextField(15);
 	
 	private JComboBox cbDia = new JComboBox(),
@@ -107,6 +111,19 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		paCentral.add(lblEstadodaAtividade);
 		paCentral.add(cbEstadoAtividade);
 		
+	}
+	
+	public void formatador() {
+		try {
+			MaskFormatter etapaMask = new MaskFormatter("##");
+			MaskFormatter valorMask = new MaskFormatter("###");
+			
+			etapaMask.install(txtEtapa);
+			valorMask.install(txtValor);
+		}
+		catch(java.text.ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void posicionador() {
@@ -340,7 +357,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 			}
 			stm.close();
 		}
-		
+		 
 		catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -444,6 +461,7 @@ public class CadastrarAtividade extends JFrame implements MouseListener, ItemLis
 		codigo();
 		carregaMaterias();
 		carregaTipoAtv();
+		formatador();
 		
 		btnCancelar.addMouseListener(this);
 		btnSalvar.addMouseListener(this);
