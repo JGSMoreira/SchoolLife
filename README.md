@@ -1,6 +1,6 @@
 # School Life
-##### Este é um projeto de escola, pedimos que ninguém altere nosso programa :) 
-##### Alunos: Alysson Kauan de Sousa Cremer, João Guilherme dos Santos Moreira
+##### Software para gerenciamento da vida escolar.
+##### Desenvolvedores: Alysson Kauan de Sousa Cremer, João Guilherme dos Santos Moreira
 
 ## FUNCIONALIDADES:
 
